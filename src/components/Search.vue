@@ -12,9 +12,11 @@
     </button>
 
     <span v-if="query" ref="summary"
-      >Showing {{ matches.length }} {{ resultText }} for '{{ query }}'</span
+      >Showing {{ startAt + 1 }} - {{ size }} of {{ totalResults }}
+      {{ resultText }} for '{{ query }}'</span
     >
 
+    <b @click="next(query)">next</b><b @click="prev(query)">prev</b>
     <ol>
       <li v-for="match of matches" @click="choose(match)" :key="match.webpage">
         {{ match.full_name }}
@@ -34,10 +36,13 @@ export default {
   data() {
     return {
       value: "",
+      startAt: 0,
       query: "",
       matches: [],
+      totalResults: 0,
       maxSearch: 250,
-      imageData: NoC_US,
+      pageSize: 10,
+      imageData: NoC_US
     };
   },
   computed: {
@@ -47,27 +52,47 @@ export default {
       }
       return "results";
     },
+    size() {
+      if (this.pageSize <= this.matches.length) {
+        return this.pageSize + this.startAt;
+      }
+      return this.matches.length;
+    }
   },
   methods: {
     choose(match) {
       this.$emit("input", match);
     },
+    next() {
+      this.startAt += this.pageSize;
+      this.search();
+    },
+    prev() {
+      this.startAt -= this.pageSize;
+      this.search();
+    },
     search() {
+      if (this.value != this.query) {
+        this.startAt = 0;
+      }
       this.query = this.value;
       this.matches = [];
       console.log("searching imageData...", this.query);
+      this.totalResults = 0;
       for (let _line of this.imageData.split("\n")) {
         const _upper = _line.split("|")[0].toUpperCase();
         const _query = this.query.toUpperCase();
         if (_upper.indexOf(_query) > -1) {
-          this.matches.push(extractData(_line));
-        }
-        if (this.maxSearch <= this.matches.length) {
-          break;
+          this.totalResults++;
+          if (this.totalResults >= this.startAt) {
+            if (this.matches.length < this.pageSize) {
+              this.matches.push(extractData(_line));
+            }
+          }
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style type="text/css" scoped>
