@@ -43,7 +43,7 @@ export default {
     Hero,
     Footer
   },
-  data: function() {
+  data: function () {
     return {
       HeaderData: HeaderData,
       FooterData: FooterData,
@@ -60,6 +60,9 @@ export default {
 <style lang="scss">
 .container {
   width: 100%;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0 36px;
 }
 @media (max-width: 767px) {

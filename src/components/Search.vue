@@ -33,7 +33,7 @@
         >
           <ImageThumb
             :key="match.webpage"
-            :class="search - item - image"
+            class="search-item-image"
             :src="match.iiif_url"
             @click="choose(match)"
           />
