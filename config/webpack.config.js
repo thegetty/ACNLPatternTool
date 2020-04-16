@@ -153,7 +153,7 @@ const htmlWebpackOptions = {
   inject: true,
   hash: true,
   template: pathToPublicIndex,
-  title: "Animal Crossing Art Generator"
+  title: "Animal Crossing Art Generator | Getty"
 };
 
 const plugins = [
