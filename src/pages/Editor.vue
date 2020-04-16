@@ -66,8 +66,8 @@
                 :values="[
                   {
                     name: 'View in collection',
-                    href: searchResult.webpage,
-                  },
+                    href: searchResult.webpage
+                  }
                 ]"
                 labelSuffix=""
               />
@@ -124,10 +124,6 @@
       <!-- Credits -->
       <section class="section">
         <Credits />
-      </section>
-
-      <!-- Disclaimer -->
-      <section class="disclaimer">
         <Disclaimer />
       </section>
 
@@ -182,9 +178,9 @@ export default {
     Gallery,
     ACNLQRGenerator,
     RichText,
-    RecordMetadataField,
+    RecordMetadataField
   },
-  beforeRouteUpdate: function(to, from, next) {
+  beforeRouteUpdate: function (to, from, next) {
     if (to.hash.length > 1) {
       if (to.hash.startsWith("#H:")) {
         origin.view(to.hash.substring(3)).then((r) => {
@@ -205,7 +201,7 @@ export default {
     next();
   },
 
-  data: function() {
+  data: function () {
     return {
       gettyLogo,
       saveIcon,
@@ -226,7 +222,7 @@ export default {
       allowMoveToLocal: true,
       // convertImage: false,
       mainMenu: false,
-      origin,
+      origin
     };
   },
   methods: {
@@ -234,7 +230,7 @@ export default {
       const scroll = el.offsetTop - 110;
       window.scrollTo({
         top: scroll,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     },
 
@@ -273,7 +269,7 @@ export default {
     //     lzString.compressToUTF16(this.drawingTool.toString())
     //   );
     // },
-    onLoad: async function(t) {
+    onLoad: async function (t) {
       let patStr = this.drawingTool.toString();
       this.patType = this.drawingTool.patternType;
       this.patTypeName = this.drawingTool.typeInfo.name;
@@ -293,10 +289,10 @@ export default {
       */
       return;
     },
-    extLoad: function(data) {
+    extLoad: function (data) {
       this.drawingTool.load(data);
     },
-    onSearchSelect: function(data, scroll = true) {
+    onSearchSelect: function (data, scroll = true) {
       if (!data) {
         console.log("handle this case");
         return null;
@@ -309,7 +305,7 @@ export default {
       // make sure gallery thumbs are visually unselected
       this.$refs["gallery"].selectedImageIndex = -1;
     },
-    onConvert: function(patterns) {
+    onConvert: function (patterns) {
       // this.convertImage = false;
       let title = "untitled";
       if (patterns.length == 1) {
@@ -327,7 +323,7 @@ export default {
       const patStr = this.drawingTool.toString();
       this.qrCode = patStr;
     },
-    onQROpen: function() {
+    onQROpen: function () {
       const patStr = this.drawingTool.toString();
       this.qrCode = patStr;
     },
@@ -341,9 +337,9 @@ export default {
     },
     updateIiifData(manifestUrl) {
       getIIIFData(manifestUrl).then(this.onSearchSelect);
-    },
+    }
   },
-  mounted: function() {
+  mounted: function () {
     if (localStorage.getItem("author_acnl")) {
       this.drawingTool.authorStrict = localStorage.getItem("author_acnl");
       this.storedAuthorHuman =
@@ -378,7 +374,7 @@ export default {
       }
     });
     this.loadFromExample(0);
-  },
+  }
 };
 </script>
 
