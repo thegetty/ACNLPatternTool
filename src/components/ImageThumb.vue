@@ -2,6 +2,8 @@
   <img :src="imgSrc" :class="classes" @error="imageError" @click="click" />
 </template>
 <script>
+import grey from "/assets/images/Grey_Square.svg";
+
 export default {
   name: "ImageThumb",
   components: {},
@@ -12,7 +14,7 @@ export default {
     },
     errorSrc: {
       type: String,
-      default: undefined,
+      default: grey,
     },
     classes: {
       type: String,
@@ -22,6 +24,7 @@ export default {
   data: function() {
     return {
       imgSrc: this.src,
+      grey: grey,
     };
   },
   methods: {
