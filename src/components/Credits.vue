@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Credits</h1>
-    <div class="credits-container">
-      <hr />
+    <hr />
+    <div class="credits-container l-thirds">
       <div class="l-thirds__two-thirds">
         <RichText :content="credits" contentType="markdown" />
       </div>

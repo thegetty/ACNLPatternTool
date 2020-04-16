@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Disclaimer</h1>
-    <div class="disclaimer-container">
-      <hr />
+    <hr />
+    <div class="disclaimer-container l-thirds">
       <div class="l-thirds__two-thirds">
         <RichText :content="disclaimer" contentType="markdown" />
       </div>
