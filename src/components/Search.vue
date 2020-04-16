@@ -31,12 +31,13 @@
           class="search-item-container"
           :class="match.iiif_url == selected ? 'selected' : ''"
         >
-          <img
-            :key="match.webpage"
-            class="search-item-image"
-            :src="match.iiif_url"
-            @click="choose(match)"
-          />
+		
+	        <ImageThumb
+	          :key="match.webpage"
+	          :class="search-item-image"
+	          :src="match.iiif_url"
+	          @click="choose(match)"
+	        />
           <p class="f-body-1" @click="choose(match)">
             {{ match.full_name
             }}<span v-if="match.artist"> by {{ match.artist }}</span>
@@ -82,6 +83,7 @@
 import NoC_US from "../data/NoC-US.txt";
 import { extractData } from "../libs/ExtractData.js";
 import { Icon } from "@thegetty/getty-ui";
+import ImageThumb from "./ImageThumb.vue";
 import "unorm";
 if (typeof window !== "undefined") {
   let smoothscroll = require("smoothscroll-polyfill");
@@ -90,7 +92,7 @@ if (typeof window !== "undefined") {
 
 export default {
   name: "Search",
-  components: { Icon },
+  components: { Icon, ImageThumb },
   data() {
     return {
       value: "",
@@ -100,7 +102,7 @@ export default {
       itemsPerPage: 8,
       selected: undefined,
       currentSearchPage: 0,
-      imageData: NoC_US
+      imageData: NoC_US,
     };
   },
   computed: {
@@ -124,7 +126,7 @@ export default {
     },
     onLastSearchPage() {
       return this.lastIndex >= this.matches.length;
-    }
+    },
   },
   methods: {
     choose(match) {
@@ -152,7 +154,7 @@ export default {
       }
       window.scrollTo({
         top: scroll,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     },
     search() {
@@ -181,8 +183,8 @@ export default {
           this.matches.push(extractData(_line));
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style type="text/css" scoped>
