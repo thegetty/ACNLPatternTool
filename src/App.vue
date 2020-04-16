@@ -19,6 +19,7 @@
         <router-view></router-view>
       </div>
     </section>
+    <SearchOverlay />
     <Footer
       :baseUrl="'https://www.getty.edu'"
       :primary-nav="FooterData.primaryNavigation"
@@ -34,14 +35,21 @@
 import "@thegetty/getty-ui/dist/getty-ui.css";
 import HeaderData from "@thegetty/getty-ui/src/components/globals/header/data.json";
 import FooterData from "@thegetty/getty-ui/src/components/globals/footer/data.json";
-import { Header, Footer, Hero, RichText } from "@thegetty/getty-ui";
+import {
+  Header,
+  Footer,
+  Hero,
+  RichText,
+  SearchOverlay,
+} from "@thegetty/getty-ui";
 import heroImg from "/assets/images/IMG_7794_edit.jpg";
 export default {
   name: "App",
   components: {
     Header,
     Hero,
-    Footer
+    Footer,
+    SearchOverlay,
   },
   data: function () {
     return {
@@ -50,10 +58,10 @@ export default {
       heroImg,
       heroData: {
         title: "Animal Crossing Art Generator",
-        backgroundColor: "white"
-      }
+        backgroundColor: "white",
+      },
     };
-  }
+  },
 };
 </script>
 
