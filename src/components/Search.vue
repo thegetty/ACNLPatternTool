@@ -27,21 +27,25 @@
 
     <ol ref="searchResults">
       <li v-for="match of currentResults" :key="match.webpage">
-        <img
-          :key="match.webpage"
-          class="gallery_img"
+        <div
+          class="search-item-container"
           :class="match.iiif_url == selected ? 'selected' : ''"
-          :src="match.iiif_url"
-          @click="choose(match)"
-        />
-        <p class="f-body-1" @click="choose(match)">
-          {{ match.full_name
-          }}<span v-if="match.artist"> by {{ match.artist }}</span>
-        </p>
-        <a class="f-body-1 a-link" :href="match.webpage"
-          ><span class="a-link__label"
-            >view in collection <Icon :name="'outbound'"/></span
-        ></a>
+        >
+          <img
+            :key="match.webpage"
+            class="search-item-image"
+            :src="match.iiif_url"
+            @click="choose(match)"
+          />
+          <p class="f-body-1" @click="choose(match)">
+            {{ match.full_name
+            }}<span v-if="match.artist"> by {{ match.artist }}</span>
+          </p>
+          <a class="f-body-1 a-link" :href="match.webpage"
+            ><span class="a-link__label"
+              >view in collection <Icon :name="'outbound'"/></span
+          ></a>
+        </div>
       </li>
     </ol>
     <div v-if="query && matches.length > 0" class="paginate">
@@ -201,11 +205,23 @@ li {
   margin-top: 1.2em;
 }
 
-.gallery_img {
+.search-item-container {
   max-width: 90%;
   min-width: 50%;
 }
-
+.search-item-image {
+  max-height: 15em;
+}
+@media (max-width: 767px) {
+  .search-item-image {
+    max-height: 10em;
+  }
+}
+@media (max-width: 500px) {
+  .search-item-image {
+    max-height: 8em;
+  }
+}
 .summary {
   display: block;
   padding-top: 1em;
