@@ -7,7 +7,7 @@
         class="gallery-column"
         @click="changeImage(index)"
       >
-        <img :src="getThumbnailUrl(img)" :class="getClass(index)" />
+        <ImageThumb :src="getThumbnailUrl(img)" :classes="getClass(index)" />
       </div>
     </div>
   </div>
@@ -15,6 +15,8 @@
 
 <script>
 import examples from "../data/example_images.json";
+import ImageThumb from "./ImageThumb.vue";
+
 if (typeof window !== "undefined") {
   let smoothscroll = require("smoothscroll-polyfill");
   smoothscroll.polyfill();
@@ -22,12 +24,11 @@ if (typeof window !== "undefined") {
 
 export default {
   name: "Gallery",
-  components: {},
-
+  components: { ImageThumb },
   data: function() {
     return {
       selectedImageIndex: 0,
-      images: examples
+      images: examples,
     };
   },
   computed: {},
@@ -44,7 +45,7 @@ export default {
       }
       window.scrollTo({
         top: scroll,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     },
     getClass(index) {
@@ -53,6 +54,7 @@ export default {
       }
       return "thumbnail";
     },
+
     getThumbnailUrl(img) {
       if (img.crop && img.crop.width) {
         const fullWidth = img.crop.full_width;
@@ -73,8 +75,8 @@ export default {
         return url;
       }
       return img.iiif_url;
-    }
-  }
+    },
+  },
 };
 </script>
 

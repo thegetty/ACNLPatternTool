@@ -4,4 +4,4 @@ Download and save your QR code. Add your artwork to your _Animal Crossing: New H
 2. Scan your QR code using the Nintendo Switch App.
 3. In Animal Crossing, use your NookPhone to download designs into your custom designs app.
 
-More detailed step-by-step instructions [here](#).
+More detailed step-by-step instructions [here](https://blogs.getty.edu/iris/how-to-build-an-art-museum-in-animal-crossing/).

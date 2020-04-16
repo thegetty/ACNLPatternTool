@@ -11,6 +11,7 @@
         class="iiif-input"
         placeholder="Paste IIIF Url Here"
         v-model="iiifManifestUrl"
+        @keyup.enter="updateUrl"
       />
       <Button
         name="search"
