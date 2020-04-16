@@ -24,10 +24,10 @@
             <RichText :content="step1Text" contentType="markdown" />
           </div>
         </div>
-        <h3 class="f-heading-3">A. Browse the Getty Museum Collection</h3>
+
         <Search @input="onSearchSelect" ref="search" />
 
-        <h3 class="f-heading-3">B. Select one of our favorites</h3>
+        <h3 class="f-heading-3">Our Favorites</h3>
         <Gallery @selectedExample="loadFromExample" ref="gallery" />
       </section>
 

@@ -7,7 +7,7 @@
         type="search"
         v-model="value"
         @keyup.enter="search"
-        placeholder="Search Artwork"
+        placeholder="Search for Artwork"
       />
       <button
         ref="search"
@@ -43,7 +43,7 @@
           </p>
           <a class="f-body-1 a-link" :href="match.webpage"
             ><span class="a-link__label"
-              >view in collection <Icon :name="'outbound'"/></span
+              >view in collection <Icon :name="'outbound'" /></span
           ></a>
         </div>
       </li>
@@ -101,7 +101,7 @@ export default {
       itemsPerPage: 8,
       selected: undefined,
       currentSearchPage: 0,
-      imageData: NoC_US,
+      imageData: NoC_US
     };
   },
   computed: {
@@ -125,7 +125,7 @@ export default {
     },
     onLastSearchPage() {
       return this.lastIndex >= this.matches.length;
-    },
+    }
   },
   methods: {
     choose(match) {
@@ -153,7 +153,7 @@ export default {
       }
       window.scrollTo({
         top: scroll,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     },
     search() {
@@ -185,8 +185,8 @@ export default {
           this.matches.push(extractData(_line));
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style type="text/css" scoped>
