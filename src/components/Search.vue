@@ -31,13 +31,12 @@
           class="search-item-container"
           :class="match.iiif_url == selected ? 'selected' : ''"
         >
-		
-	        <ImageThumb
-	          :key="match.webpage"
-	          :class="search-item-image"
-	          :src="match.iiif_url"
-	          @click="choose(match)"
-	        />
+          <ImageThumb
+            :key="match.webpage"
+            class="search-item-image"
+            :src="match.iiif_url"
+            @click="choose(match)"
+          />
           <p class="f-body-1" @click="choose(match)">
             {{ match.full_name
             }}<span v-if="match.artist"> by {{ match.artist }}</span>
