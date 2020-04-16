@@ -74,9 +74,9 @@
               <RecordMetadataField
                 v-if="searchResult.attribution"
                 label="Attribution"
-                :values="searchResult.attribution"
                 labelSuffix=""
-              />
+                ><span v-html="searchResult.attribution"></span
+              ></RecordMetadataField>
               <RecordMetadataField
                 v-if="searchResult.license"
                 label="License"
@@ -116,7 +116,7 @@
       <section class="section">
         <div id="iiifloader">
           <h1>Use the art generator with other open-access IIIF images</h1>
-          <IIIFInput @updateIiif="updateIiifData" />
+          <IIIFInput @updateIiif="updateIiifData" :iiif-error="iiif_error" />
         </div>
       </section>
       <hr class="hr-dark" />
@@ -216,6 +216,7 @@ export default {
       storedAuthorHuman: false,
       patInfoModal: false,
       fragment: "",
+      iiif_error: undefined,
       patType: 9,
       patTypeName: "",
       multiName: "Local storage",
@@ -336,8 +337,24 @@ export default {
       this.$refs["search"].selected = undefined;
     },
     updateIiifData(manifestUrl) {
-      getIIIFData(manifestUrl).then(this.onSearchSelect);
-    }
+
+      this.iiif_error = undefined;
+      if (!manifestUrl.startsWith("http")) {
+        this.iiif_error = "Please enter a valid IIIF URL";
+      }
+      getIIIFData(manifestUrl)
+        .then((data) => {
+          if (data == undefined) {
+            this.iiif_error =
+              "There was an error processing your IIIF Manifest";
+          } else {
+            this.onSearchSelect(data);
+          }
+        })
+        .catch((e) => {
+          this.iiif_error = e.message;
+        });
+    },
   },
   mounted: function () {
     if (localStorage.getItem("author_acnl")) {
