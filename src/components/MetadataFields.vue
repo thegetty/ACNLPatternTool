@@ -12,11 +12,17 @@
       :values="artist"
       labelSuffix=":"
     />
-    <div class="view-in-collection">
-      <a :href="collectionLink"
-        >View in the collection <Icon :name="'outbound'"
-      /></a>
-    </div>
+    <RecordMetadataField
+      v-if="collectionLink"
+      label="Link"
+      :values="[
+        {
+          name: 'View in collection',
+          href: collectionLink,
+        },
+      ]"
+      labelSuffix=""
+    />
     <RecordMetadataField
       v-if="attribution"
       label="Attribution"
@@ -40,35 +46,35 @@ export default {
   name: "MetadataFields",
   components: {
     Icon,
-    RecordMetadataField
+    RecordMetadataField,
   },
   props: {
     title: {
       type: [String, Array],
       required: false,
-      default: undefined
+      default: undefined,
     },
     artist: {
       type: [String, Array],
       required: false,
-      default: undefined
+      default: undefined,
     },
     collectionLink: {
       type: String,
       required: false,
-      default: undefined
+      default: undefined,
     },
     attribution: {
       type: [String, Array],
       required: false,
-      default: undefined
+      default: undefined,
     },
     license: {
       type: [String, Array],
       required: false,
-      default: undefined
-    }
-  }
+      default: undefined,
+    },
+  },
 };
 </script>
 
