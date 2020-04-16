@@ -259,11 +259,12 @@ li {
 .a-link__label.disabled:hover,
 .a-link__label.disabled:active,
 .a-link__label.disabled:focus {
-  color: #1a1a1a;
+  color: #717070;
   text-decoration: none !important;
   border: none !important;
   outline: 0 !important;
   transition: none;
+  cursor: default;
 }
 
 .selected {
