@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Disclaimer</h1>
     <hr />
+    <h2>Disclaimer</h2>
     <div class="disclaimer-container l-thirds">
       <div class="l-thirds__two-thirds">
         <RichText :content="disclaimer" contentType="markdown" />
@@ -29,6 +29,6 @@ export default {
 
 <style lang="scss">
 .disclaimer-container {
-  margin-top: 60px;
+  margin-bottom: 60px;
 }
 </style>

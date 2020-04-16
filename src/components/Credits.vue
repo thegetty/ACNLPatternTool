@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Credits</h1>
-    <hr />
     <div class="credits-container l-thirds">
       <div class="l-thirds__two-thirds">
         <RichText :content="credits" contentType="markdown" />
@@ -29,6 +28,6 @@ export default {
 
 <style lang="scss">
 .credits-container {
-  margin-top: 60px;
+  margin-bottom: 60px;
 }
 </style>
