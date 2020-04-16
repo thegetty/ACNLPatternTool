@@ -19,6 +19,9 @@
         >Submit</Button
       >
     </div>
+    <span v-if="iiifError != undefined && iiifError != ''">{{
+      iiifError
+    }}</span>
     <!-- IIIF explanation section -->
     <div class="l-thirds">
       <div class="l-thirds__two-thirds">
@@ -38,21 +41,23 @@ export default {
   name: "IIIFInput",
   components: {
     RichText,
-    Button
+    Button,
+  },
+  props: {
+    iiifError: { type: String, required: false, default: "" },
   },
   data() {
     return {
       iiifManifestUrl: undefined,
       iiif1,
-      iiif2
+      iiif2,
     };
   },
   methods: {
     updateUrl() {
-      console.log("updateUrl");
       this.$emit("updateIiif", this.iiifManifestUrl);
-    }
-  }
+    },
+  },
 };
 </script>
 
