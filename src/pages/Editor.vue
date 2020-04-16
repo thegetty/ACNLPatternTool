@@ -47,41 +47,12 @@
                 @converted="onConvert"
                 ref="imageloader"
               />
-
-              <RecordMetadataField
-                v-if="searchResult.full_name"
-                label="Title"
-                :values="searchResult.full_name"
-                labelSuffix=""
-              />
-              <RecordMetadataField
-                v-if="searchResult.artist"
-                label="Creator"
-                :values="searchResult.artist"
-                labelSuffix=""
-              />
-              <RecordMetadataField
-                v-if="searchResult.webpage"
-                label="Link"
-                :values="[
-                  {
-                    name: 'View in collection',
-                    href: searchResult.webpage,
-                  },
-                ]"
-                labelSuffix=""
-              />
-              <RecordMetadataField
-                v-if="searchResult.attribution"
-                label="Attribution"
-                labelSuffix=""
-                ><span v-html="searchResult.attribution"></span
-              ></RecordMetadataField>
-              <RecordMetadataField
-                v-if="searchResult.license"
-                label="License"
-                :values="searchResult.license"
-                labelSuffix=""
+              <MetadataFields
+                :title="searchResult.full_name"
+                :artist="searchResult.artist"
+                :collection-link="searchResult.webpage"
+                :attribution="searchResult.attribution"
+                :license="searchResult.license"
               />
             </div>
           </div>
@@ -124,10 +95,6 @@
       <!-- Credits -->
       <section class="section">
         <Credits />
-      </section>
-
-      <!-- Disclaimer -->
-      <section class="disclaimer">
         <Disclaimer />
       </section>
 
@@ -144,6 +111,7 @@
 
 <script>
 import Credits from "/components/Credits.vue";
+import MetadataFields from "/components/MetadataFields.vue";
 import Disclaimer from "/components/Disclaimer.vue";
 import gettyLogo from "/assets/images/getty-logo.png";
 import saveIcon from "/assets/images/save-icon.svg";
@@ -174,6 +142,7 @@ export default {
   name: "Editor",
   components: {
     Credits,
+    MetadataFields,
     Disclaimer,
     IIIFInput,
     Search,
@@ -182,12 +151,12 @@ export default {
     Gallery,
     ACNLQRGenerator,
     RichText,
-    RecordMetadataField,
+    RecordMetadataField
   },
-  beforeRouteUpdate: function(to, from, next) {
+  beforeRouteUpdate: function (to, from, next) {
     if (to.hash.length > 1) {
       if (to.hash.startsWith("#H:")) {
-        origin.view(to.hash.substring(3)).then((r) => {
+        origin.view(to.hash.substring(3)).then(r => {
           this.drawingTool.load(r);
         });
         next();
@@ -205,7 +174,7 @@ export default {
     next();
   },
 
-  data: function() {
+  data: function () {
     return {
       gettyLogo,
       saveIcon,
@@ -227,7 +196,7 @@ export default {
       allowMoveToLocal: true,
       // convertImage: false,
       mainMenu: false,
-      origin,
+      origin
     };
   },
   methods: {
@@ -235,7 +204,7 @@ export default {
       const scroll = el.offsetTop - 110;
       window.scrollTo({
         top: scroll,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     },
 
@@ -274,7 +243,7 @@ export default {
     //     lzString.compressToUTF16(this.drawingTool.toString())
     //   );
     // },
-    onLoad: async function(t) {
+    onLoad: async function (t) {
       let patStr = this.drawingTool.toString();
       this.patType = this.drawingTool.patternType;
       this.patTypeName = this.drawingTool.typeInfo.name;
@@ -294,10 +263,10 @@ export default {
       */
       return;
     },
-    extLoad: function(data) {
+    extLoad: function (data) {
       this.drawingTool.load(data);
     },
-    onSearchSelect: function(data, scroll = true) {
+    onSearchSelect: function (data, scroll = true) {
       if (!data) {
         console.log("handle this case");
         return null;
@@ -310,7 +279,7 @@ export default {
       // make sure gallery thumbs are visually unselected
       this.$refs["gallery"].selectedImageIndex = -1;
     },
-    onConvert: function(patterns) {
+    onConvert: function (patterns) {
       // this.convertImage = false;
       let title = "untitled";
       if (patterns.length == 1) {
@@ -328,7 +297,7 @@ export default {
       const patStr = this.drawingTool.toString();
       this.qrCode = patStr;
     },
-    onQROpen: function() {
+    onQROpen: function () {
       const patStr = this.drawingTool.toString();
       this.qrCode = patStr;
     },
@@ -341,12 +310,13 @@ export default {
       this.$refs["search"].selected = undefined;
     },
     updateIiifData(manifestUrl) {
+
       this.iiif_error = undefined;
       if (!manifestUrl.startsWith("http")) {
         this.iiif_error = "Please enter a valid IIIF URL";
       }
       getIIIFData(manifestUrl)
-        .then((data) => {
+        .then(data => {
           if (data == undefined) {
             this.iiif_error =
               "There was an error processing your IIIF Manifest";
@@ -354,12 +324,12 @@ export default {
             this.onSearchSelect(data);
           }
         })
-        .catch((e) => {
+        .catch(e => {
           this.iiif_error = e.message;
         });
-    },
+    }
   },
-  mounted: function() {
+  mounted: function () {
     if (localStorage.getItem("author_acnl")) {
       this.drawingTool.authorStrict = localStorage.getItem("author_acnl");
       this.storedAuthorHuman =
@@ -370,7 +340,7 @@ export default {
     if (this.$router.currentRoute.hash.length > 1) {
       const hash = this.$router.currentRoute.hash.substring(1);
       if (hash.startsWith("H:")) {
-        origin.view(hash.substring(2)).then((r) => {
+        origin.view(hash.substring(2)).then(r => {
           this.drawingTool.load(r);
         });
       } else {
@@ -381,7 +351,7 @@ export default {
       this.drawingTool.render();
     }
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", e => {
       if (e.ctrlKey && e.key === "Z") {
         this.drawingTool.redo();
         e.preventDefault();
@@ -394,7 +364,7 @@ export default {
       }
     });
     this.loadFromExample(0);
-  },
+  }
 };
 </script>
 
@@ -443,7 +413,10 @@ export default {
 .top-padding {
   padding-top: 2em;
 }
-
+.view-in-collection {
+  font-size: 15px;
+  margin-top: 8px;
+}
 .top-margin4 {
   margin-top: 4em;
 }

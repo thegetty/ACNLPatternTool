@@ -42,12 +42,13 @@
             }}<span v-if="match.artist"> by {{ match.artist }}</span>
           </p>
           <a class="f-body-1 a-link" :href="match.webpage"
-            ><span class="a-link__label">view in collection</span></a
-          >
+            ><span class="a-link__label"
+              >view in collection <Icon :name="'outbound'"/></span
+          ></a>
         </div>
       </li>
     </ol>
-    <div v-if="query" class="paginate">
+    <div v-if="query && matches.length > 0" class="paginate">
       <a
         class="f-body-1 a-link pagination-link"
         href="#"
