@@ -47,7 +47,7 @@ describe("Search", () => {
     wrapper.find({ ref: "input" }).trigger("keyup.enter");
     await wrapper.vm.$nextTick();
     expect(wrapper.find({ ref: "summary" }).text()).toEqual(
-      "Showing 1 - 8 of 1\n    result for 'lisa'"
+      "Showing 1 - 1 of\n    \n    1 result for 'lisa'"
     );
   });
 
@@ -57,7 +57,7 @@ describe("Search", () => {
     wrapper.find({ ref: "input" }).trigger("keyup.enter");
     await wrapper.vm.$nextTick();
     expect(wrapper.find({ ref: "summary" }).text()).toEqual(
-      "Showing 1 - 8 of 3\n    results for 'i'"
+      "Showing 1 - 3 of\n    \n    3 results for 'i'"
     );
   });
 
