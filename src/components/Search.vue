@@ -19,8 +19,10 @@
       </button>
     </div>
     <span v-if="query" ref="summary" class="summary"
-      >Showing {{ startIndex + 1 }} - {{ lastIndex }} of {{ matches.length }}
-      {{ resultText }} for '{{ query }}'</span
+      ><span v-if="matches.length > 0"
+        >Showing {{ startIndex + 1 }} - {{ lastIndex }} of
+      </span>
+      {{ matches.length }} {{ resultText }} for '{{ query }}'</span
     >
 
     <ol ref="searchResults">
@@ -110,6 +112,9 @@ export default {
       return this.currentSearchPage * this.itemsPerPage;
     },
     lastIndex() {
+      if (this.matches.length < this.itemsPerPage) {
+        return this.startIndex + this.matches.length;
+      }
       return this.startIndex + this.itemsPerPage;
     },
     onLastSearchPage() {
