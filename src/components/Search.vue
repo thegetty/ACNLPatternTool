@@ -161,6 +161,9 @@ export default {
       this.selected = undefined;
       this.matches = [];
       this.currentSearchPage = 0;
+      if (this.value == "" || this.value == undefined) {
+        return;
+      }
       for (let _line of this.imageData.split("\n")) {
         let cols = _line.split("|");
         const _upper = cols[0]
