@@ -43,7 +43,7 @@
         >
       </li>
     </ol>
-    <div v-if="query" class="paginate">
+    <div v-if="query && matches.length > 0" class="paginate">
       <a
         class="f-body-1 a-link pagination-link"
         href="#"
