@@ -74,9 +74,9 @@
               <RecordMetadataField
                 v-if="searchResult.attribution"
                 label="Attribution"
-                :values="searchResult.attribution"
                 labelSuffix=""
-              />
+                ><span v-html="searchResult.attribution"></span
+              ></RecordMetadataField>
               <RecordMetadataField
                 v-if="searchResult.license"
                 label="License"
