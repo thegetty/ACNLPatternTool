@@ -47,35 +47,12 @@
                 @converted="onConvert"
                 ref="imageloader"
               />
-
-              <RecordMetadataField
-                v-if="searchResult.full_name"
-                label="Title"
-                :values="searchResult.full_name"
-                labelSuffix=""
-              />
-              <RecordMetadataField
-                v-if="searchResult.artist"
-                label="Creator"
-                :values="searchResult.artist"
-                labelSuffix=""
-              />
-              <div class="view-in-collection">
-                <a :href="searchResult.webpage"
-                  >View in the collection <Icon :name="'outbound'"
-                /></a>
-              </div>
-              <RecordMetadataField
-                v-if="searchResult.attribution"
-                label="Attribution"
-                :values="searchResult.attribution"
-                labelSuffix=""
-              />
-              <RecordMetadataField
-                v-if="searchResult.license"
-                label="License"
-                :values="searchResult.license"
-                labelSuffix=""
+              <MetadataFields
+                :title="searchResult.full_name"
+                :artist="searchResult.artist"
+                :collection-link="searchResult.webpage"
+                :attribution="searchResult.attribution"
+                :license="searchResult.license"
               />
             </div>
           </div>
@@ -133,6 +110,7 @@
 
 <script>
 import Credits from "/components/Credits.vue";
+import MetadataFields from "/components/MetadataFields.vue";
 import gettyLogo from "/assets/images/getty-logo.png";
 import saveIcon from "/assets/images/save-icon.svg";
 import introText from "../data/intro_text.md";
@@ -140,7 +118,7 @@ import step1Text from "../data/step1_text.md";
 import Share from "/components/Share.vue";
 import qrInstructions from "../data/qr_instructions.md";
 import examples from "../data/example_images.json";
-import { Icon, RichText, RecordMetadataField } from "@thegetty/getty-ui";
+import { RichText, RecordMetadataField } from "@thegetty/getty-ui";
 import IIIFInput from "/components/IIIFInput.vue";
 import ImageLoader from "/components/ImageLoader.vue";
 import Gallery from "/components/Gallery.vue";
@@ -162,7 +140,7 @@ export default {
   name: "Editor",
   components: {
     Credits,
-    Icon,
+    MetadataFields,
     IIIFInput,
     Search,
     Share,
