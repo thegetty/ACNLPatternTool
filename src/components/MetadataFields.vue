@@ -22,7 +22,8 @@
       label="Attribution"
       :values="attribution"
       labelSuffix=":"
-    />
+      ><span v-html="attribution"></span
+    ></RecordMetadataField>
     <RecordMetadataField
       v-if="license"
       label="License"
