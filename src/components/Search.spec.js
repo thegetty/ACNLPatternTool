@@ -10,15 +10,15 @@ describe("Search", () => {
       data() {
         return {
           imageData:
-            "test image|1234|aaa-bbb-123\nMona Lisa|222|bb-dd-gff\nIrises|1|aaaa-aaa-aaaa"
+            "test image|1234|aaa-bbb-123\nMona Lisa|222|bb-dd-gff\nIrises|1|aaaa-aaa-aaaa",
         };
-      }
+      },
     };
   });
 
   it("Is a vue component", () => {
     const wrapper = shallowMount(Search, {
-      propsData: {}
+      propsData: {},
     });
     expect(wrapper.isVueInstance()).toBeTruthy();
   });
@@ -29,12 +29,15 @@ describe("Search", () => {
     wrapper.find({ ref: "search" }).trigger("click");
     expect(wrapper.vm.matches).toEqual([
       {
+        artist: undefined,
         full_name: "Mona Lisa",
         iiif_url:
           "https://media.getty.edu/iiif/image/bb-dd-gff/full/!300,300/0/default.jpg",
+        large_iiif_url:
+          "https://media.getty.edu/iiif/image/bb-dd-gff/full/!1200,1200/0/default.jpg",
         short_name: "Mona Lisa",
-        webpage: "https://www.getty.edu/art/collection/objects/tms:222"
-      }
+        webpage: "https://www.getty.edu/art/collection/objects/tms:222",
+      },
     ]);
   });
 
@@ -44,7 +47,7 @@ describe("Search", () => {
     wrapper.find({ ref: "input" }).trigger("keyup.enter");
     await wrapper.vm.$nextTick();
     expect(wrapper.find({ ref: "summary" }).text()).toEqual(
-      "Showing 1 result for 'lisa'"
+      "Showing 1 - 8 of 1\n    result for 'lisa'"
     );
   });
 
@@ -54,7 +57,7 @@ describe("Search", () => {
     wrapper.find({ ref: "input" }).trigger("keyup.enter");
     await wrapper.vm.$nextTick();
     expect(wrapper.find({ ref: "summary" }).text()).toEqual(
-      "Showing 3 results for 'i'"
+      "Showing 1 - 8 of 3\n    results for 'i'"
     );
   });
 

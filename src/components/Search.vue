@@ -48,7 +48,10 @@
         @click.prevent="prevPage"
         :class="currentSearchPage != 0 ? '' : 'disabled'"
       >
-        <span class="a-link__label">
+        <span
+          class="a-link__label"
+          :class="currentSearchPage != 0 ? '' : 'disabled'"
+        >
           Previous
         </span>
       </a>
@@ -58,7 +61,10 @@
         @click.prevent="nextPage"
         :class="onLastSearchPage == false ? '' : 'disabled'"
       >
-        <span class="a-link__label">
+        <span
+          class="a-link__label"
+          :class="onLastSearchPage == false ? '' : 'disabled'"
+        >
           Next
         </span>
       </a>
@@ -87,7 +93,7 @@ export default {
       itemsPerPage: 8,
       selected: undefined,
       currentSearchPage: 0,
-      imageData: NoC_US
+      imageData: NoC_US,
     };
   },
   computed: {
@@ -108,7 +114,7 @@ export default {
     },
     onLastSearchPage() {
       return this.lastIndex >= this.matches.length;
-    }
+    },
   },
   methods: {
     choose(match) {
@@ -136,7 +142,7 @@ export default {
       }
       window.scrollTo({
         top: scroll,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     },
     search() {
@@ -165,8 +171,8 @@ export default {
           this.matches.push(extractData(_line));
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style type="text/css" scoped>
@@ -223,11 +229,19 @@ li {
   padding-left: 2em;
 }
 
-a.disabled,
-a.disabled:hover,
-a.disabled .a-link__label:hover {
+.a-link.disabled,
+.a-link.disabled:hover,
+.a-link.disabled:active,
+.a-link.disabled:focus,
+.a-link__label.disabled,
+.a-link__label.disabled:hover,
+.a-link__label.disabled:active,
+.a-link__label.disabled:focus {
   color: #1a1a1a;
   text-decoration: none !important;
+  border: none !important;
+  outline: 0 !important;
+  transition: none;
 }
 
 .selected {

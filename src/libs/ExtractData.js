@@ -36,7 +36,7 @@ export function extractData(dataString, size = 300, full_size = 1200) {
     iiif_url: url,
     large_iiif_url: bigurl,
     artist: artist,
-    webpage: link
+    webpage: link,
   };
 }
 
@@ -72,7 +72,7 @@ export async function getIIIFData(manifestURL, size = 150, full_size = 1200) {
     attribution: manifest.attribution,
     license: manifest.license,
     artist: null,
-    webpage: null
+    webpage: null,
   };
 }
 
@@ -107,12 +107,16 @@ export function getIIIFThumbnail(manifest, size = 300) {
       "http://iiif.io/api/image/2/context.json"
   ) {
     const thumbnailId = manifest.thumbnail.service["@id"];
-    return `${manifest.thumbnail.service["@id"]}/full/!${size},${size}/0/default.jpg`;
+    return `${
+      manifest.thumbnail.service["@id"]
+    }/full/!${size},${size}/0/default.jpg`;
   }
 
   // Happy path:  Has a thumbnail defined, but it's not IIIF-compatible
-  else if (manifest.thumbnail) {
+  else if (manifest.thumbnail && manifest.thumbnail["@id"]) {
     return manifest.thumbnail["@id"];
+  } else if (manifest.thumbnail && typeof manifest.thumbnail === "string") {
+    return manifest.thumbnail;
   }
 
   //Somber path:  Doesn't have a thumbnail--choose the first image in the first sequence.
@@ -123,7 +127,9 @@ export function getIIIFThumbnail(manifest, size = 300) {
     manifest.sequences[0].canvases[0].images[0].resource &&
     manifest.sequences[0].canvases[0].images[0].resource.service
   ) {
-    return `${manifest.sequences[0].canvases[0].images[0].resource.service["@id"]}/full/!${size},${size}/0/default.jpg`;
+    return `${
+      manifest.sequences[0].canvases[0].images[0].resource.service["@id"]
+    }/full/!${size},${size}/0/default.jpg`;
   }
   // sad path: we failed.
   return null;

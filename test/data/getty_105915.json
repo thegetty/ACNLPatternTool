@@ -1,0 +1,79 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://data.getty.edu/museum/api/iiif/105915/manifest.json",
+  "@type": "sc:Manifest",
+  "label": "Genealogy (1353), Unknown maker",
+  "description": null,
+  "metadata": [
+    { "label": "Artist / Maker", "value": "Unknown maker" },
+    { "label": "Culture & Date", "value": "Silesian, 1353" },
+    {
+      "label": "Medium",
+      "value": "Tempera colors, colored washes, and ink on parchment"
+    },
+    {
+      "label": "Dimensions",
+      "value": "Leaf: 34.1 \u00d7 24.8 cm (13 7/16 \u00d7 9 3/4 in.)"
+    },
+    {
+      "label": "Object Number",
+      "value": "Ms. Ludwig XI 7 (83.MN.126), fol. 9v"
+    },
+    { "label": "Place Created", "value": "Silesia, Poland" },
+    {
+      "label": "Collection",
+      "value": "<a href='http://www.getty.edu/art/collection/' target='_blank'>The J. Paul Getty Museum</a>"
+    },
+    {
+      "label": "Rights Statement",
+      "value": "<div>Images provided here are believed to be in the public domain and are available under the terms of the Getty's <nobr><a href='http://www.getty.edu/about/opencontent.html' target='_blank'>Open Content Program</a></nobr>. Texts provided here are \u00a9 J. Paul Getty Trust, licensed under <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>CC BY 4.0</a>. Terms of use for the Getty logo can be found <a href='http://www.getty.edu/legal/copyright.html#logo' target='_blank'>here</a>.</div>"
+    }
+  ],
+  "thumbnail": "https://data.getty.edu/museum/api/iiif/26612/full/213,300/0/default.jpg",
+  "viewDirection": "right-to-left",
+  "attribution": "Digital image courtesy of the Getty's <a href='http://www.getty.edu/about/opencontent.html' target='_blank'>Open Content Program</a>.",
+  "logo": "http://www.getty.edu/museum/media/graphics/web/logos/getty.png",
+  "within": "http://www.getty.edu/art/collection/",
+  "sequences": [
+    {
+      "@id": "https://data.getty.edu/museum/api/iiif/105915/sequence/main",
+      "@type": "sc:Sequence",
+      "label": "Object",
+      "viewingDirection": "left-to-right",
+      "viewingHint": "paged",
+      "startCanvas": "https://data.getty.edu/museum/api/iiif/105915/canvas/main",
+      "canvases": [
+        {
+          "@id": "https://data.getty.edu/museum/api/iiif/105915/canvas/main",
+          "@type": "sc:Canvas",
+          "label": "Main Image",
+          "width": 3150,
+          "height": 4442,
+          "images": [
+            {
+              "@id": "https://data.getty.edu/museum/api/iiif/105915/annotation/main-image",
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://data.getty.edu/museum/api/iiif/26612/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "service": {
+                  "@context": "http://iiif.io/api/image/2/context.json",
+                  "@id": "https://data.getty.edu/museum/api/iiif/26612",
+                  "profile": "http://iiif.io/api/image/2/profiles/level0.json"
+                },
+                "width": 3150,
+                "height": 4442
+              },
+              "on": "https://data.getty.edu/museum/api/iiif/105915/canvas/main"
+            }
+          ],
+          "thumbnail": "https://data.getty.edu/museum/api/iiif/26612/full/213,300/0/default.jpg"
+        }
+      ]
+    }
+  ],
+  "license": "http://www.getty.edu/legal/copyright.html#oc",
+  "related": "http://www.getty.edu/art/collection/objects/105915/unknown-maker-genealogy-silesian-1353"
+}
