@@ -373,10 +373,22 @@ export default {
   color: #1a47b8;
   text-decoration: none;
 }
-.leftborder {
-  padding-left: 12px;
-  border-left: 1px solid #e6e6e6;
+@media screen and (max-width: 1439px) and (min-width: 1024px) {
+  .l-halves .leftborder {
+    margin-left: 12px;
+    padding-left: 12px;
+    border-left: 1px solid #e6e6e6;
+  }
 }
+
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  .l-halves .leftborder {
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid #e6e6e6;
+  }
+}
+
 .column-content {
   margin-top: 36px;
 }
