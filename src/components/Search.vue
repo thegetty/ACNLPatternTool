@@ -7,7 +7,7 @@
         type="search"
         v-model="value"
         @keyup.enter="search"
-        placeholder="Search for Artwork"
+        placeholder="Search for artwork"
       />
       <button
         ref="search"
