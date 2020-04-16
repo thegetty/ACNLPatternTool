@@ -2,6 +2,7 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { extractData, getIIIFThumbnail } from "./ExtractData.js";
 import testManifest from "../../test/data/manifest";
+import gettyManifest from "../../test/data/getty_105915";
 import smithsonianManifest from "../../test/data/smithsonian_manifest";
 
 // This sets the mock adapter on the default instance
@@ -78,6 +79,12 @@ describe("getIIIFThumbnail", () => {
     delete manifestData.thumbnail.service;
     expect(getIIIFThumbnail(manifestData, 600)).toEqual(
       "https://media.getty.edu/iiif/image/non-iiif-service/full/!300,300/0/default.jpg"
+    );
+  });
+
+  it("handles a getty manifest", async () => {
+    expect(getIIIFThumbnail(gettyManifest, 300)).toEqual(
+      "https://data.getty.edu/museum/api/iiif/26612/full/213,300/0/default.jpg"
     );
   });
 
