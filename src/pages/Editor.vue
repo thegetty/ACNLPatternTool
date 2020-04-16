@@ -60,17 +60,11 @@
                 :values="searchResult.artist"
                 labelSuffix=""
               />
-              <RecordMetadataField
-                v-if="searchResult.webpage"
-                label="Link"
-                :values="[
-                  {
-                    name: 'View in collection',
-                    href: searchResult.webpage,
-                  },
-                ]"
-                labelSuffix=""
-              />
+              <div class="view-in-collection">
+                <a :href="searchResult.webpage"
+                  >View in the collection <Icon :name="'outbound'"
+                /></a>
+              </div>
               <RecordMetadataField
                 v-if="searchResult.attribution"
                 label="Attribution"
@@ -146,7 +140,7 @@ import step1Text from "../data/step1_text.md";
 import Share from "/components/Share.vue";
 import qrInstructions from "../data/qr_instructions.md";
 import examples from "../data/example_images.json";
-import { RichText, RecordMetadataField } from "@thegetty/getty-ui";
+import { Icon, RichText, RecordMetadataField } from "@thegetty/getty-ui";
 import IIIFInput from "/components/IIIFInput.vue";
 import ImageLoader from "/components/ImageLoader.vue";
 import Gallery from "/components/Gallery.vue";
@@ -168,6 +162,7 @@ export default {
   name: "Editor",
   components: {
     Credits,
+    Icon,
     IIIFInput,
     Search,
     Share,
@@ -175,12 +170,12 @@ export default {
     Gallery,
     ACNLQRGenerator,
     RichText,
-    RecordMetadataField,
+    RecordMetadataField
   },
   beforeRouteUpdate: function(to, from, next) {
     if (to.hash.length > 1) {
       if (to.hash.startsWith("#H:")) {
-        origin.view(to.hash.substring(3)).then((r) => {
+        origin.view(to.hash.substring(3)).then(r => {
           this.drawingTool.load(r);
         });
         next();
@@ -219,7 +214,7 @@ export default {
       allowMoveToLocal: true,
       // convertImage: false,
       mainMenu: false,
-      origin,
+      origin
     };
   },
   methods: {
@@ -227,7 +222,7 @@ export default {
       const scroll = el.offsetTop - 110;
       window.scrollTo({
         top: scroll,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     },
 
@@ -334,7 +329,7 @@ export default {
     },
     updateIiifData(manifestUrl) {
       getIIIFData(manifestUrl).then(this.onSearchSelect);
-    },
+    }
   },
   mounted: function() {
     if (localStorage.getItem("author_acnl")) {
@@ -347,7 +342,7 @@ export default {
     if (this.$router.currentRoute.hash.length > 1) {
       const hash = this.$router.currentRoute.hash.substring(1);
       if (hash.startsWith("H:")) {
-        origin.view(hash.substring(2)).then((r) => {
+        origin.view(hash.substring(2)).then(r => {
           this.drawingTool.load(r);
         });
       } else {
@@ -358,7 +353,7 @@ export default {
       this.drawingTool.render();
     }
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", e => {
       if (e.ctrlKey && e.key === "Z") {
         this.drawingTool.redo();
         e.preventDefault();
@@ -371,7 +366,7 @@ export default {
       }
     });
     this.loadFromExample(0);
-  },
+  }
 };
 </script>
 
@@ -420,7 +415,10 @@ export default {
 .top-padding {
   padding-top: 2em;
 }
-
+.view-in-collection {
+  font-size: 15px;
+  margin-top: 8px;
+}
 .top-margin4 {
   margin-top: 4em;
 }
