@@ -156,7 +156,7 @@ export default {
   beforeRouteUpdate: function (to, from, next) {
     if (to.hash.length > 1) {
       if (to.hash.startsWith("#H:")) {
-        origin.view(to.hash.substring(3)).then(r => {
+        origin.view(to.hash.substring(3)).then((r) => {
           this.drawingTool.load(r);
         });
         next();
@@ -310,13 +310,12 @@ export default {
       this.$refs["search"].selected = undefined;
     },
     updateIiifData(manifestUrl) {
-
       this.iiif_error = undefined;
       if (!manifestUrl.startsWith("http")) {
         this.iiif_error = "Please enter a valid IIIF URL";
       }
       getIIIFData(manifestUrl)
-        .then(data => {
+        .then((data) => {
           if (data == undefined) {
             this.iiif_error =
               "There was an error processing your IIIF Manifest";
@@ -324,7 +323,7 @@ export default {
             this.onSearchSelect(data);
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.iiif_error = e.message;
         });
     }
@@ -340,7 +339,7 @@ export default {
     if (this.$router.currentRoute.hash.length > 1) {
       const hash = this.$router.currentRoute.hash.substring(1);
       if (hash.startsWith("H:")) {
-        origin.view(hash.substring(2)).then(r => {
+        origin.view(hash.substring(2)).then((r) => {
           this.drawingTool.load(r);
         });
       } else {
@@ -351,7 +350,7 @@ export default {
       this.drawingTool.render();
     }
 
-    document.addEventListener("keydown", e => {
+    document.addEventListener("keydown", (e) => {
       if (e.ctrlKey && e.key === "Z") {
         this.drawingTool.redo();
         e.preventDefault();
@@ -373,7 +372,7 @@ export default {
   color: #1a47b8;
   text-decoration: none;
 }
-@media screen and (max-width: 1439px) and (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
   .l-halves .leftborder {
     margin-left: 12px;
     padding-left: 12px;
