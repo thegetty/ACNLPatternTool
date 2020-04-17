@@ -272,12 +272,28 @@ export default {
         return null;
       }
       this.searchResult = data;
+      this.clearOtherLogo();
+      if (data.logo) {
+        let logoImg = new Image();
+        logoImg.src = data.logo;
+        logoImg.id = "otherlogo";
+        logoImg.setAttribute("crossorigin", "anonymous");
+        logoImg.setAttribute("class", "hidden");
+        document.body.appendChild(logoImg);
+      }
+
       this.$set(this.iiif, "url", data.large_iiif_url);
       if (scroll) {
         this.scrollTo(this.$refs["step2"]);
       }
       // make sure gallery thumbs are visually unselected
       this.$refs["gallery"].selectedImageIndex = -1;
+    },
+    clearOtherLogo: function () {
+      let logoImg = document.getElementById("otherlogo");
+      if (logoImg) {
+        logoImg.parentNode.removeChild(logoImg);
+      }
     },
     onConvert: function (patterns) {
       // this.convertImage = false;
@@ -305,6 +321,7 @@ export default {
       let currentExample = examples[exampleNumber];
       this.searchResult = currentExample;
       this.$set(this.iiif, "url", currentExample.large_iiif_url);
+      this.clearOtherLogo();
       this.$refs["imageloader"].setCropData(currentExample.crop);
       // make sure search thumbs are visually unselected
       this.$refs["search"].selected = undefined;
