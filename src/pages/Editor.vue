@@ -266,21 +266,39 @@ export default {
     extLoad: function(data) {
       this.drawingTool.load(data);
     },
-    onSearchSelect: function (data, scroll = true, preserveManifest = false) {
+    onSearchSelect: function(data, scroll = true, preserveManifest = false) {
       if (!data) {
         console.log("handle this case");
         return null;
       }
       this.searchResult = data;
-      if (!preserveManifest) {
+
+      this.clearOtherLogo();
+      if (data.logo) {
+        let logoImg = new Image();
+        logoImg.src = data.logo;
+        logoImg.id = "otherlogo";
+        logoImg.setAttribute("crossorigin", "anonymous");
+        logoImg.setAttribute("class", "hidden");
+        document.body.appendChild(logoImg);
+      }
+
+      if (!preserveManifest && Object.keys(this.$route.query).length > 0) {
         this.$router.replace({ query: {} });
       }
+
       this.$set(this.iiif, "url", data.large_iiif_url);
       if (scroll) {
         this.scrollTo(this.$refs["step2"]);
       }
       // make sure gallery thumbs are visually unselected
       this.$refs["gallery"].selectedImageIndex = -1;
+    },
+    clearOtherLogo: function() {
+      let logoImg = document.getElementById("otherlogo");
+      if (logoImg) {
+        logoImg.parentNode.removeChild(logoImg);
+      }
     },
     onConvert: function(patterns) {
       // this.convertImage = false;
@@ -307,8 +325,12 @@ export default {
     loadFromExample(exampleNumber) {
       let currentExample = examples[exampleNumber];
       this.searchResult = currentExample;
-      this.$router.replace({ query: {} });
+      if (Object.keys(this.$route.query).length > 0) {
+        this.$router.replace({ query: {} });
+      }
       this.$set(this.iiif, "url", currentExample.large_iiif_url);
+      this.clearOtherLogo();
+      this.$refs["imageloader"].setCropData(currentExample.crop);
       let self = this;
       // wait a tiny big before loading the cropper
       setTimeout(function() {
@@ -326,7 +348,13 @@ export default {
       if (!manifestUrl.startsWith("http")) {
         this.iiif_error = "Please enter a valid IIIF URL";
       }
-      this.$router.replace({ query: { "iiif-content": manifestUrl } });
+
+      if (
+        Object.keys(this.$route.query).length == 0 ||
+        this.$route.query["iiif-content"] != manifestUrl
+      ) {
+        this.$router.replace({ query: { "iiif-content": manifestUrl } });
+      }
       getIIIFData(manifestUrl)
         .then((data) => {
           if (data == undefined) {
@@ -381,7 +409,7 @@ export default {
     } else {
       this.loadFromExample(0);
     }
-  }
+  },
 };
 </script>
 
