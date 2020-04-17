@@ -88,7 +88,19 @@ export default {
     },
     setCropData(cropData) {
       // console.log("cropping");
-      this.$refs.cropper.setCoordinates(cropData);
+
+      if (
+        this.$refs &&
+        this.$refs.cropper &&
+        this.$refs.cropper.setCoordinates
+      ) {
+        this.$refs.cropper.setCoordinates(cropData);
+      } else {
+        const self = this;
+        setTimeout(function() {
+          self.setCropData(cropData);
+        }, 200);
+      }
     },
 
     onCrop({ coordinates, canvas }) {

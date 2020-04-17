@@ -5,7 +5,7 @@ import logger from "/utils/logger";
 import {
   QRCodeEncoder,
   QRCodeDecoderErrorCorrectionLevel,
-  EncodeHintType
+  EncodeHintType,
 } from "@zxing/library";
 
 //for 3D renders
@@ -17,12 +17,12 @@ import {
   PerspectiveCamera,
   Mesh,
   MeshBasicMaterial,
-  WebGLRenderer
+  WebGLRenderer,
 } from "@three/core";
 import { GLTFLoader } from "@three/loaders/GLTFLoader";
 import injected from "/utils/injected";
 
-async function generateACNLQR(newData) {
+async function generateACNLQR(newData, logo) {
   //Load pattern, prepare render canvas
   const drawingTool =
     newData instanceof DrawingTool ? newData : new DrawingTool(newData);
@@ -193,7 +193,7 @@ async function generateACNLQR(newData) {
     const renderer = new WebGLRenderer({
       alpha: true,
       canvas: threeCanvas,
-      antialias: true
+      antialias: true,
     });
     const scene = new Scene();
     const camera = new PerspectiveCamera(
@@ -314,14 +314,18 @@ async function generateACNLQR(newData) {
     "#1a1a1a"
   );
 
-  let image = document.getElementById("gettylogo");
-  if (document.getElementById("otherlogo")) {
-    image = document.getElementById("otherlogo");
+  if (logo) {
+    const imgW = logo.naturalWidth;
+    const imgH = logo.naturalHeight;
+    const scaleFactor = 18 / imgH;
+    ctx.drawImage(
+      logo,
+      14,
+      height - 28,
+      imgW * scaleFactor,
+      imgH * scaleFactor
+    );
   }
-  const imgW = image.naturalWidth;
-  const imgH = image.naturalHeight;
-  const scaleFactor = 18 / imgH;
-  ctx.drawImage(image, 14, height - 28, imgW * scaleFactor, imgH * scaleFactor);
 
   //Prepare pretty side decoration
   bgCanvas.width = 3;

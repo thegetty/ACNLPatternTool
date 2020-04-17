@@ -209,7 +209,17 @@ export default {
     },
 
     async downPNG() {
-      const img = await generateACNLQR(this.drawingTool);
+      let img = undefined;
+      try {
+        let logo = document.getElementById("gettylogo");
+        if (document.getElementById("otherlogo")) {
+          logo = document.getElementById("otherlogo");
+        }
+        img = await generateACNLQR(this.drawingTool, logo);
+      } catch (e) {
+        img = await generateACNLQR(this.drawingTool, undefined);
+      }
+
       saveAs(img, this.drawingTool.title + ".png");
     },
     // patInfoSave(publish = false) {
@@ -333,9 +343,7 @@ export default {
       this.$refs["imageloader"].setCropData(currentExample.crop);
       let self = this;
       // wait a tiny big before loading the cropper
-      setTimeout(function() {
-        self.$refs["imageloader"].setCropData(currentExample.crop);
-      }, 200);
+      self.$refs["imageloader"].setCropData(currentExample.crop);
       // make sure search thumbs are visually unselected
       this.$refs["search"].selected = undefined;
     },
