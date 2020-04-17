@@ -309,7 +309,7 @@ export default {
       // wait a tiny big before loading the cropper
       setTimeout(function() {
         self.$refs["imageloader"].setCropData(currentExample.crop);
-      }, 1000);
+      }, 200);
       // make sure search thumbs are visually unselected
       this.$refs["search"].selected = undefined;
     },
