@@ -57,8 +57,10 @@ export async function getIIIFData(manifestURL, size = 150, full_size = 800) {
   let iiif_full_url = iiif_url.replace(`!${size},${size}`, `${full_size},`);
 
   let label = "";
-  if (manifest.label) {
+  if (manifest.label && typeof manifest.label == "string") {
     label = manifest.label;
+  } else if (manifest.logo[0] && typeof manifest.logo[0] === "string") {
+    label = manifest.label[0];
   }
 
   let logo = null;
