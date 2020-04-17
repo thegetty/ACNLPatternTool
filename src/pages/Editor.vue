@@ -151,9 +151,9 @@ export default {
     Gallery,
     ACNLQRGenerator,
     RichText,
-    RecordMetadataField
+    RecordMetadataField,
   },
-  beforeRouteUpdate: function (to, from, next) {
+  beforeRouteUpdate: function(to, from, next) {
     if (to.hash.length > 1) {
       if (to.hash.startsWith("#H:")) {
         origin.view(to.hash.substring(3)).then((r) => {
@@ -174,7 +174,7 @@ export default {
     next();
   },
 
-  data: function () {
+  data: function() {
     return {
       gettyLogo,
       saveIcon,
@@ -196,7 +196,7 @@ export default {
       allowMoveToLocal: true,
       // convertImage: false,
       mainMenu: false,
-      origin
+      origin,
     };
   },
   methods: {
@@ -204,7 +204,7 @@ export default {
       const scroll = el.offsetTop - 110;
       window.scrollTo({
         top: scroll,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     },
 
@@ -243,7 +243,7 @@ export default {
     //     lzString.compressToUTF16(this.drawingTool.toString())
     //   );
     // },
-    onLoad: async function (t) {
+    onLoad: async function(t) {
       let patStr = this.drawingTool.toString();
       this.patType = this.drawingTool.patternType;
       this.patTypeName = this.drawingTool.typeInfo.name;
@@ -263,10 +263,10 @@ export default {
       */
       return;
     },
-    extLoad: function (data) {
+    extLoad: function(data) {
       this.drawingTool.load(data);
     },
-    onSearchSelect: function (data, scroll = true) {
+    onSearchSelect: function(data, scroll = true) {
       if (!data) {
         console.log("handle this case");
         return null;
@@ -279,7 +279,7 @@ export default {
       // make sure gallery thumbs are visually unselected
       this.$refs["gallery"].selectedImageIndex = -1;
     },
-    onConvert: function (patterns) {
+    onConvert: function(patterns) {
       // this.convertImage = false;
       let title = "untitled";
       if (patterns.length == 1) {
@@ -297,7 +297,7 @@ export default {
       const patStr = this.drawingTool.toString();
       this.qrCode = patStr;
     },
-    onQROpen: function () {
+    onQROpen: function() {
       const patStr = this.drawingTool.toString();
       this.qrCode = patStr;
     },
@@ -305,12 +305,20 @@ export default {
       let currentExample = examples[exampleNumber];
       this.searchResult = currentExample;
       this.$set(this.iiif, "url", currentExample.large_iiif_url);
-      this.$refs["imageloader"].setCropData(currentExample.crop);
+      let self = this;
+      // wait a tiny big before loading the cropper
+      setTimeout(function() {
+        self.$refs["imageloader"].setCropData(currentExample.crop);
+      }, 1000);
       // make sure search thumbs are visually unselected
       this.$refs["search"].selected = undefined;
     },
     updateIiifData(manifestUrl) {
       this.iiif_error = undefined;
+      if (manifestUrl == undefined) {
+        return;
+      }
+
       if (!manifestUrl.startsWith("http")) {
         this.iiif_error = "Please enter a valid IIIF URL";
       }
@@ -326,10 +334,10 @@ export default {
         .catch((e) => {
           this.iiif_error = e.message;
         });
-    }
+    },
   },
-  mounted: function () {
-    if (localStorage.getItem("author_acnl")) {
+  mounted: function() {
+    if (localStorage && localStorage.getItem("author_acnl")) {
       this.drawingTool.authorStrict = localStorage.getItem("author_acnl");
       this.storedAuthorHuman =
         this.drawingTool.creator[0] + " / " + this.drawingTool.town[0];
@@ -363,7 +371,7 @@ export default {
       }
     });
     this.loadFromExample(0);
-  }
+  },
 };
 </script>
 
