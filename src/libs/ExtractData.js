@@ -47,17 +47,14 @@ function truncateName(name) {
   return name;
 }
 
-export async function getIIIFData(manifestURL, size = 150, full_size = 1200) {
+export async function getIIIFData(manifestURL, size = 150, full_size = 800) {
   let manifest = await getIIIFManifest(manifestURL);
   if (!manifest) {
     return null;
   }
 
   let iiif_url = getIIIFThumbnail(manifest, size);
-  let iiif_full_url = iiif_url.replace(
-    `!${size},${size}`,
-    `!${full_size},${full_size}`
-  );
+  let iiif_full_url = iiif_url.replace(`!${size},${size}`, `${full_size},`);
 
   let label = "";
   if (manifest.label) {
