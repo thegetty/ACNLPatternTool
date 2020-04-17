@@ -258,7 +258,7 @@ export default {
       const newHash = lzString.compressToEncodedURIComponent(patStr);
       const newPixHash = "#H:"+this.drawingTool.pixelHash;
       if (this.$router.currentRoute.hash !== "#" + newHash && this.$router.currentRoute.hash !== newPixHash) {
-        this.$router.push({ hash: newHash });
+        this.$router.replace({ hash: newHash });
       }
       */
       return;
@@ -266,12 +266,13 @@ export default {
     extLoad: function (data) {
       this.drawingTool.load(data);
     },
-    onSearchSelect: function (data, scroll = true) {
+    onSearchSelect: function (data, scroll = true, preserveManifest = false) {
       if (!data) {
         console.log("handle this case");
         return null;
       }
       this.searchResult = data;
+      
       this.clearOtherLogo();
       if (data.logo) {
         let logoImg = new Image();
@@ -280,6 +281,10 @@ export default {
         logoImg.setAttribute("crossorigin", "anonymous");
         logoImg.setAttribute("class", "hidden");
         document.body.appendChild(logoImg);
+      }
+
+      if (!preserveManifest) {
+        this.$router.replace({ query: {} });
       }
 
       this.$set(this.iiif, "url", data.large_iiif_url);
@@ -320,6 +325,7 @@ export default {
     loadFromExample(exampleNumber) {
       let currentExample = examples[exampleNumber];
       this.searchResult = currentExample;
+      this.$router.replace({ query: {} });
       this.$set(this.iiif, "url", currentExample.large_iiif_url);
       this.clearOtherLogo();
       this.$refs["imageloader"].setCropData(currentExample.crop);
@@ -331,13 +337,14 @@ export default {
       if (!manifestUrl.startsWith("http")) {
         this.iiif_error = "Please enter a valid IIIF URL";
       }
+      this.$router.replace({ query: { "iiif-content": manifestUrl } });
       getIIIFData(manifestUrl)
         .then((data) => {
           if (data == undefined) {
             this.iiif_error =
               "There was an error processing your IIIF Manifest";
           } else {
-            this.onSearchSelect(data);
+            this.onSearchSelect(data, false, true);
           }
         })
         .catch((e) => {
@@ -379,7 +386,12 @@ export default {
         return;
       }
     });
-    this.loadFromExample(0);
+    if (this.$route.query["iiif-content"]) {
+      let manifest = this.$route.query["iiif-content"];
+      this.updateIiifData(manifest);
+    } else {
+      this.loadFromExample(0);
+    }
   }
 };
 </script>

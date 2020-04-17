@@ -12,7 +12,7 @@
       :values="artist"
       labelSuffix=":"
     />
-    <div class="view-in-collection">
+    <div class="view-in-collection" v-if="collectionLink">
       <a :href="collectionLink"
         >View in the collection <Icon :name="'outbound'"
       /></a>
@@ -27,7 +27,7 @@
     <RecordMetadataField
       v-if="license"
       label="License"
-      :values="license"
+      :values="[{ name: license, href: license }]"
       labelSuffix=":"
     />
   </div>
@@ -78,8 +78,8 @@ export default {
 }
 .m-record-metadata-field__label--horizontal {
   font-size: 15px;
-  min-width: 4em;
-  max-width: 4em;
+  min-width: 5em;
+  max-width: 5em;
 }
 .a-delimited-field-values {
   font-size: 15px;
