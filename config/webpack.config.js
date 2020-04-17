@@ -14,7 +14,7 @@ const {
   pathToBuild,
   pathToPublicIndex,
   pathToFavicon,
-  pathToClientSrcIndex
+  pathToClientSrcIndex,
 } = require("../etc/paths");
 const { babelDevConfig, babelProdConfig } = require("./babel.config");
 
@@ -22,7 +22,7 @@ const injection = require("../etc/injection");
 
 const clientEnv = env.buildClient();
 
-const entry = [pathToClientSrcIndex];
+const entry = ["babel-polyfill", pathToClientSrcIndex];
 
 // const output = {
 //   filename: "scripts/bundle.js",
@@ -47,29 +47,29 @@ if (process.env.PUBLIC_PATH) {
 const output = {
   filename: "scripts/bundle.js",
   publicPath: publicPath,
-  path: buildPath
+  path: buildPath,
 };
 
 const babelRuleDev = {
   test: /\.m?js$/i,
-  exclude: /(node_modules|bower_components)/,
+  exclude: /(bower_components)/,
   use: {
     loader: "babel-loader",
-    options: babelDevConfig
-  }
+    options: babelDevConfig,
+  },
 };
 
 const babelRuleProd = {
   ...babelRuleDev,
   use: {
     ...babelRuleDev.use,
-    options: babelProdConfig
-  }
+    options: babelProdConfig,
+  },
 };
 
 const vueRule = {
   test: /\.vue$/i,
-  loader: "vue-loader"
+  loader: "vue-loader",
 };
 
 const scssRuleDev = {
@@ -80,10 +80,10 @@ const scssRuleDev = {
     {
       loader: "sass-loader",
       options: {
-        sourceMap: true
-      }
-    }
-  ]
+        sourceMap: true,
+      },
+    },
+  ],
 };
 
 const scssRuleProd = {
@@ -97,11 +97,11 @@ const scssRuleProd = {
       options: {
         sourceMap: false,
         sassOptions: {
-          outputStyle: "compressed"
-        }
-      }
-    }
-  ]
+          outputStyle: "compressed",
+        },
+      },
+    },
+  ],
 };
 
 const fileRules = [
@@ -112,9 +112,9 @@ const fileRules = [
       loader: "file-loader",
       options: {
         emitFile: true,
-        outputPath: "images" // relative to output dir
-      }
-    }
+        outputPath: "images", // relative to output dir
+      },
+    },
   },
   // file-loader for models
   {
@@ -122,25 +122,25 @@ const fileRules = [
     use: {
       loader: "file-loader",
       options: {
-        outputPath: "resources" // relative to output.path
-      }
-    }
+        outputPath: "resources", // relative to output.path
+      },
+    },
   },
   {
     test: /\.(txt|md)$/i,
     use: {
-      loader: "raw-loader"
-    }
+      loader: "raw-loader",
+    },
   }, // file-loaders for fonts
   {
     test: /\.(ttf|woff|eot|ttf|otf|woff2)$/i,
     use: {
       loader: "file-loader",
       options: {
-        outputPath: "fonts" // relative to output.path
-      }
-    }
-  }
+        outputPath: "fonts", // relative to output.path
+      },
+    },
+  },
 ];
 
 const rulesDev = [babelRuleDev, vueRule, scssRuleDev, ...fileRules];
@@ -153,55 +153,55 @@ const htmlWebpackOptions = {
   inject: true,
   hash: true,
   template: pathToPublicIndex,
-  title: "Animal Crossing Art Generator | Getty"
+  title: "Animal Crossing Art Generator | Getty",
 };
 
 const plugins = [
   new VueLoaderPlugin(),
   new OptimizeThreePlugin(),
   new webpack.DefinePlugin({ "process.env": JSON.stringify(clientEnv) }),
-  new webpack.DefinePlugin({ "process.injected": JSON.stringify(injection) })
+  new webpack.DefinePlugin({ "process.injected": JSON.stringify(injection) }),
 ];
 
 const pluginsDev = [
   ...plugins,
   new GoogleFontsPlugin({
     local: false,
-    fonts
+    fonts,
   }),
   new HtmlWebpackPlugin({
     ...htmlWebpackOptions,
     alwaysWriteToDisk: false,
-    filename: "index.html"
+    filename: "index.html",
   }),
   new HtmlWebpackHarddiskPlugin(), // ^ allows more options
   new FaviconsWebpackPlugin({
     logo: pathToFavicon,
     inject: true,
-    prefix: "favicons"
-  })
+    prefix: "favicons",
+  }),
 ];
 
 const pluginsProd = [
   ...plugins,
   new MiniCssExtractPlugin({
-    filename: "styles/style.css"
+    filename: "styles/style.css",
   }),
   new GoogleFontsPlugin({
     local: true,
     filename: "styles/font.css",
     path: "../fonts/",
     fonts,
-    formats: ["ttf"]
+    formats: ["ttf"],
   }),
   new HtmlWebpackPlugin({
-    ...htmlWebpackOptions
+    ...htmlWebpackOptions,
   }),
   new FaviconsWebpackPlugin({
     logo: pathToFavicon,
     inject: true,
-    prefix: "favicons"
-  })
+    prefix: "favicons",
+  }),
 ];
 
 const optimizatonProd = {
@@ -210,12 +210,12 @@ const optimizatonProd = {
       test: /\.js(\?.*)?$/i,
       terserOptions: {
         mangle: true,
-        ie8: false
+        ie8: false,
       },
-      extractComments: true
+      extractComments: true,
     }),
-    new OptimizeCSSAssetsPlugin({})
-  ]
+    new OptimizeCSSAssetsPlugin({}),
+  ],
 };
 
 const webpackDevConfig = {
@@ -224,9 +224,9 @@ const webpackDevConfig = {
   entry,
   output,
   module: {
-    rules: rulesDev
+    rules: rulesDev,
   },
-  plugins: pluginsDev
+  plugins: pluginsDev,
 };
 
 const webpackProdConfig = {
@@ -235,13 +235,13 @@ const webpackProdConfig = {
   entry,
   output,
   module: {
-    rules: rulesProd
+    rules: rulesProd,
   },
   plugins: pluginsProd,
   optimization: optimizatonProd,
   // ignore webpack performance warnings
   // not a good gauge
-  performance: false
+  performance: false,
 };
 
 // default setting, set by .env
@@ -250,5 +250,5 @@ let webpackConfig = env.ifProdVal(webpackProdConfig, webpackDevConfig);
 module.exports = {
   webpackConfig, // default
   webpackDevConfig, // force dev
-  webpackProdConfig // force prod
+  webpackProdConfig, // force prod
 };
