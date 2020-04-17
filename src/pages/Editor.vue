@@ -314,6 +314,7 @@ export default {
       if (!manifestUrl.startsWith("http")) {
         this.iiif_error = "Please enter a valid IIIF URL";
       }
+      this.$router.push({ query: { "iiif-content": manifestUrl } });
       getIIIFData(manifestUrl)
         .then((data) => {
           if (data == undefined) {
@@ -362,7 +363,12 @@ export default {
         return;
       }
     });
-    this.loadFromExample(0);
+    if (this.$route.query["iiif-content"]) {
+      let manifest = this.$route.query["iiif-content"];
+      this.updateIiifData(manifest);
+    } else {
+      this.loadFromExample(0);
+    }
   }
 };
 </script>
