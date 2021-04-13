@@ -66,13 +66,13 @@ directory.
 
 ### setup Netlify (first time only)
 
-1. login to netlify from the commandline `docker-compose exec frontend npx netlify login`
-2. link the folder to netlify `docker-compose exec frontend npx netlify link`
+1. login to netlify from the commandline `npx netlify login`
+2. link the folder to netlify `npx netlify link`
 
 ### build the app (every time)
 
 1. `docker-compose exec frontend npm run build`
 
-### deploy the built app to netlify
+### deploy the built app to netlify (NOTE outside of docker as it will freeze)
 
-1. `docker-compose exec frontend npx netlify deploy --dir=build --prod`
+1. `npx netlify deploy --dir=build --prod`
