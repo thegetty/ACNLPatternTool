@@ -1,60 +1,35 @@
 <template>
   <div id="app">
-    <Header
-      :primary-nav="HeaderData.primaryItems"
-      :secondary-nav="HeaderData.secondaryItems"
-      :museum-info="HeaderData.museumInfo"
-      :has-search="HeaderData.hasSearch"
-      :force-on-dark="false"
-      :baseUrl="'https://www.getty.edu'"
-    />
-    <Hero name="Content" :data="heroData" />
-    <div
-      :style="{ backgroundImage: `url('${heroImg}')` }"
-      class="heroImage"
-    ></div>
+    <GettyPage
+      application-base-url="http://experiments.getty.edu/ac-art-generator"
+    >
+      <Hero name="Content" :data="heroData" />
+      <div
+        :style="{ backgroundImage: `url('${heroImg}')` }"
+        class="heroImage"
+      ></div>
 
-    <section>
-      <div class="container">
-        <router-view></router-view>
-      </div>
-    </section>
-    <SearchOverlay />
-    <Footer
-      :baseUrl="'https://www.getty.edu'"
-      :primary-nav="FooterData.primaryNavigation"
-      :museum-info="FooterData.museumInfo"
-      :nav-grid="FooterData.navGrid"
-      :social="FooterData.social"
-      :social-all-link="FooterData.socialAllLink"
-    />
+      <section>
+        <div class="container">
+          <router-view></router-view>
+        </div>
+      </section>
+    </GettyPage>
   </div>
 </template>
 
 <script>
 import "@thegetty/getty-ui/dist/getty-ui.css";
-import HeaderData from "@thegetty/getty-ui/src/components/globals/header/data.json";
-import FooterData from "@thegetty/getty-ui/src/components/globals/footer/data.json";
-import {
-  Header,
-  Footer,
-  Hero,
-  RichText,
-  SearchOverlay,
-} from "@thegetty/getty-ui";
+import { Hero, GettyPage } from "@thegetty/getty-ui";
 import heroImg from "/assets/images/IMG_7794_edit.jpg";
 export default {
   name: "App",
   components: {
-    Header,
+    GettyPage,
     Hero,
-    Footer,
-    SearchOverlay,
   },
   data: function () {
     return {
-      HeaderData: HeaderData,
-      FooterData: FooterData,
       heroImg,
       heroData: {
         title: "Animal Crossing Art Generator",

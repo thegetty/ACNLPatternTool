@@ -13,11 +13,8 @@
         v-model="iiifManifestUrl"
         @keyup.enter="updateUrl"
       />
-      <Button
-        name="search"
-        class="a-btn a-btn--text"
-        :eventBindings="{ click: updateUrl }"
-        >Submit</Button
+      <GuiButton name="search" class="a-btn a-btn--text" @click="updateUrl"
+        >Submit</GuiButton
       >
     </div>
     <span v-if="iiifError != undefined && iiifError != ''">{{
@@ -34,7 +31,7 @@
 </template>
 
 <script>
-import { Button, RichText } from "@thegetty/getty-ui";
+import { GuiButton, RichText } from "@thegetty/getty-ui";
 import iiif1 from "../data/iiif_1.md";
 import iiif2 from "../data/iiif_2.md";
 
@@ -42,7 +39,7 @@ export default {
   name: "IIIFInput",
   components: {
     RichText,
-    Button,
+    GuiButton,
   },
   props: {
     iiifError: { type: String, required: false, default: "" },

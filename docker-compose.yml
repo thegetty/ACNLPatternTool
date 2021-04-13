@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        - NPM_TOKEN=${NPM_TOKEN}
+        - NEXUS_NPM_TOKEN=${NEXUS_NPM_TOKEN}
+    image: frontend:latest
+    environment:
+      - NPM_TOKEN=${NPM_TOKEN}
+      - NEXUS_NPM_TOKEN=${NEXUS_NPM_TOKEN}
+      - BASE_PATH=/
+      - LOCATION=local
+    volumes:
+      # normal volume mount
+      - .:/home/node/app
+      # special volume mount, effectively negating the previous volume mount
+      - /home/node/app/node_modules
+    entrypoint: npm run dev
+    ports:
+      - "3000:3000"
