@@ -20,20 +20,20 @@ npm run build:submodule # build the submodule
 
 ## Available Scripts
 
-### `npm run dev`
+### `docker-compose exec frontend npm run dev`
 
 Runs the application in development mode. Automatically reloads with changes.
 Open [https://localhost:3000](https://localhost:3000) to view it in the
 browser.
 
-### `npm run build -- <options>`
+### `docker-compose exec frontend npm run build -- <options>`
 
 Builds the submodules, app, and then outputs to a `build` directory at the
 repository root. Can build the the project in development mode or production
 mode. By default builds in the mode specified by the `.env`, but can otherwise
 override with a command line option. Use `--help` option to view options.
 
-### `npm run build:app -- <options>`
+### `docker-compose exec frontend npm run build:app -- <options>`
 
 Builds the app and outputs to a `build` directory at the repository root. Can
 build the the project in development mode or production mode. By default builds
@@ -47,12 +47,12 @@ root. Can build the the project in development mode or production mode. By
 default builds in the mode specified by the `.env`, but can otherwise override
 with a command line option.
 
-### `npm run clean`
+### `docker-compose exec frontend npm run clean`
 
 Cleans the submodule and app build directories. Recursively removes files
 located in the build directories.
 
-### `npm run clean:app`
+### `docker-compose exec frontend npm run clean:app`
 
 Cleans the app build directory. Recursively removes files located in the build
 directory.
@@ -71,8 +71,8 @@ directory.
 
 ### build the app (every time)
 
-1. `npm run build`
+1. `docker-compose exec frontend npm run build`
 
-### deploy the built app to netlify
+### deploy the built app to netlify (NOTE outside of docker as it will freeze)
 
 1. `npx netlify deploy --dir=build --prod`
