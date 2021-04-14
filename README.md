@@ -73,6 +73,8 @@ directory.
 
 1. `docker-compose exec frontend npm run build`
 
-### deploy the built app to netlify (NOTE outside of docker as it will freeze)
+### deploy the built app to netlify
 
-1. `npx netlify deploy --dir=build --prod`
+To install netlify (npm -i -g netlify-cli --unsafe-param=true)
+
+1. `netlify deploy --dir=build --prod`
