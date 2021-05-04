@@ -10,7 +10,7 @@
       ></div>
 
       <section>
-        <div class="container">
+        <div class="gui-container">
           <router-view></router-view>
         </div>
       </section>
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
+.gui-container {
   width: 100%;
   max-width: 1800px;
   margin-left: auto;
@@ -49,7 +49,7 @@ export default {
   padding: 0 36px;
 }
 @media (max-width: 767px) {
-  .container {
+  .gui-container {
     padding: 0 16px;
   }
 }
