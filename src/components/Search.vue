@@ -79,7 +79,8 @@
   </div>
 </template>
 <script>
-import NoC_US from "../data/NoC-US.txt";
+// import NoC_US from "../data/NoC-US.txt";
+import axios from "axios";
 import { extractData } from "../libs/ExtractData.js";
 import { Icon } from "@thegetty/getty-ui";
 import ImageThumb from "./ImageThumb.vue";
@@ -99,9 +100,10 @@ export default {
       matches: [],
       maxSearch: 250,
       itemsPerPage: 8,
+      imageData: undefined,
       selected: undefined,
       currentSearchPage: 0,
-      imageData: NoC_US
+      isDataLoaded: false,
     };
   },
   computed: {
@@ -125,9 +127,23 @@ export default {
     },
     onLastSearchPage() {
       return this.lastIndex >= this.matches.length;
-    }
+    },
+  },
+  mounted() {
+    this.loadData();
   },
   methods: {
+    async loadData() {
+      console.log("loading");
+      let self = this;
+      axios
+        .get("https://static.getty.edu/acart/NoC-US.txt")
+        .then((response) => {
+          console.log("done loading");
+          self.imageData = response.data;
+          self.isDataLoaded = true;
+        });
+    },
     choose(match) {
       this.selected = match.iiif_url;
       this.$emit("input", match);
@@ -153,10 +169,14 @@ export default {
       }
       window.scrollTo({
         top: scroll,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     },
     search() {
+      if (this.isDataLoaded == false) {
+        console.log("file not loaded yet");
+        return;
+      }
       this.query = this.value;
       this.selected = undefined;
       this.matches = [];
@@ -185,8 +205,8 @@ export default {
           this.matches.push(extractData(_line));
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style type="text/css" scoped>
