@@ -79,7 +79,6 @@
   </div>
 </template>
 <script>
-// import NoC_US from "../data/NoC-US.txt";
 import axios from "axios";
 import { extractData } from "../libs/ExtractData.js";
 import { Icon } from "@thegetty/getty-ui";
@@ -134,12 +133,10 @@ export default {
   },
   methods: {
     async loadData() {
-      console.log("loading");
       let self = this;
       axios
         .get("https://static.getty.edu/acart/NoC-US.txt")
         .then((response) => {
-          console.log("done loading");
           self.imageData = response.data;
           self.isDataLoaded = true;
         });
