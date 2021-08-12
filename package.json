@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/Thulinma/ACNLPatternTool#readme",
   "dependencies": {
-    "@beyonk/google-fonts-webpack-plugin": "^1.2.3",
     "@sentry/browser": "^5.15.4",
     "@sentry/integrations": "^5.15.4",
     "@thegetty/getty-ui": "^1.220.0",

@@ -1,11 +1,10 @@
 const webpack = require("webpack");
 // auto-generate the index.html file
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const OptimizeThreePlugin = require("@vxna/optimize-three-webpack-plugin");
@@ -13,7 +12,6 @@ const env = require("../etc/env"); // assume already loaded, checked
 const {
   pathToBuild,
   pathToPublicIndex,
-  pathToFavicon,
   pathToClientSrcIndex,
 } = require("../etc/paths");
 const { babelDevConfig, babelProdConfig } = require("./babel.config");
@@ -165,21 +163,12 @@ const plugins = [
 
 const pluginsDev = [
   ...plugins,
-  new GoogleFontsPlugin({
-    local: false,
-    fonts,
-  }),
   new HtmlWebpackPlugin({
     ...htmlWebpackOptions,
     alwaysWriteToDisk: false,
     filename: "index.html",
   }),
   new HtmlWebpackHarddiskPlugin(), // ^ allows more options
-  new FaviconsWebpackPlugin({
-    logo: pathToFavicon,
-    inject: true,
-    prefix: "favicons",
-  }),
 ];
 
 const pluginsProd = [
@@ -187,20 +176,8 @@ const pluginsProd = [
   new MiniCssExtractPlugin({
     filename: "styles/style.css",
   }),
-  new GoogleFontsPlugin({
-    local: true,
-    filename: "styles/font.css",
-    path: "../fonts/",
-    fonts,
-    formats: ["ttf"],
-  }),
   new HtmlWebpackPlugin({
     ...htmlWebpackOptions,
-  }),
-  new FaviconsWebpackPlugin({
-    logo: pathToFavicon,
-    inject: true,
-    prefix: "favicons",
   }),
 ];
 
