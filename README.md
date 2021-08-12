@@ -71,7 +71,7 @@ directory.
 
 ### build the app (every time)
 
-1. `docker-compose exec frontend npm run build`
+1. `docker-compose exec frontend npm run build production`
 
 ### deploy the built app to netlify
 

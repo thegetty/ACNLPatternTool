@@ -1,41 +1,37 @@
-const fs = require('fs');
-const dotenv = require('dotenv');
-const signale = require('signale');
+const fs = require("fs");
+const dotenv = require("dotenv");
+const signale = require("signale");
 const {
   clientEnvConfig,
   defaultEnv,
   transformEnv,
-  validateEnv
-} = require('../config/env.config');
-const { pathToEnv } = require('./paths');
+  validateEnv,
+} = require("../config/env.config");
+const { pathToEnv } = require("./paths");
 
-const clientEnvReqConfig = Object.keys(clientEnvConfig)
-  .filter((key) => { return clientEnvConfig[key]; });
+const clientEnvReqConfig = Object.keys(clientEnvConfig).filter((key) => {
+  return clientEnvConfig[key];
+});
 const distinctReqEnvConfig = [...new Set(clientEnvReqConfig)].sort();
 const includedEnvConfig = [
-  ... new Set([
-    ...clientEnvReqConfig,
-    ...Object.keys(defaultEnv)
-  ])
+  ...new Set([...clientEnvReqConfig, ...Object.keys(defaultEnv)]),
 ].sort();
 
 const load = () => {
   // dot env skips ones that are already set, use it first
-  if (fs.existsSync(pathToEnv))
-    dotenv.config({ path: pathToEnv });
+  if (fs.existsSync(pathToEnv)) dotenv.config({ path: pathToEnv });
   // fill in gaps with default
   for (let [key, value] of Object.entries(defaultEnv))
     if (!(key in process.env)) process.env[key] = value;
 };
 
 const correct = () => {
-  const {
-    NODE_ENV,
-  } = process.env;
+  const { NODE_ENV } = process.env;
 
   if (!["development", "production"].includes(NODE_ENV))
     process.env.NODE_ENV = "development";
 };
+
 
 const check = () => {
   const errorMessages = [];
@@ -45,7 +41,9 @@ const check = () => {
   // checks for missing environment variables
   distinctReqEnvConfig.forEach((envVar) => {
     if (envVar in process.env === false)
-      errorMessages.push(`Environment variable: '${envVar}' could not be found.`);
+      errorMessages.push(
+        `Environment variable: '${envVar}' could not be found.`
+      );
   });
 
   includedEnvConfig.forEach((envVar) => {
@@ -68,17 +66,16 @@ const buildClient = () => {
   // a, b, intersection
   const clientEnvVars = Object.keys(clientEnvConfig);
   const processEnvVars = new Set(Object.keys(process.env));
-  const clientAvailEnvVars = [...clientEnvVars].filter(envVar => processEnvVars.has(envVar));
+  const clientAvailEnvVars = [...clientEnvVars].filter((envVar) =>
+    processEnvVars.has(envVar)
+  );
 
   // construct client env from what is available
-  const clientEnv = clientAvailEnvVars
-    .reduce((env, envVar) => {
-      if (envVar in transformEnv)
-        env[envVar] = transformEnv[envVar]();
-      else
-        env[envVar] = process.env[envVar];
-      return env;
-    }, {});
+  const clientEnv = clientAvailEnvVars.reduce((env, envVar) => {
+    if (envVar in transformEnv) env[envVar] = transformEnv[envVar]();
+    else env[envVar] = process.env[envVar];
+    return env;
+  }, {});
   return clientEnv;
 };
 
@@ -96,7 +93,6 @@ const ifDevExec = (devCallback, defaultCallback) => {
   if (isDev) devCallback();
   else if (defaultCallback) defaultCallback();
 };
-
 
 const ifProdVal = (prodVal, defaultVal) => {
   const { NODE_ENV } = process.env;
@@ -122,5 +118,5 @@ module.exports = {
   ifDevVal,
   ifDevExec,
   ifProdVal,
-  ifProdExec
-}
+  ifProdExec,
+};
