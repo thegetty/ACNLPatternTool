@@ -18,11 +18,6 @@ updates:
       - npm-nexus
     open-pull-requests-limit: 5
 registries:
-  ecr-docker:
-    type: docker-registry
-    url: https://936189880821.dkr.ecr.us-west-2.amazonaws.com
-    username: ${{secrets.ECR_AWS_ACCESS_KEY_ID}}
-    password: ${{secrets.ECR_AWS_SECRET_ACCESS_KEY}}
   npm-npmjs:
     type: npm-registry
     url: https://registry.npmjs.org
@@ -33,19 +28,3 @@ registries:
     url: https://artifacts.getty.edu/repository/npm-internal/
     username: ${{secrets.NEXUS_USERNAME}}
     password: ${{secrets.NEXUS_PASSWORD}}
-  python-nexus:
-    type: python-index
-    url: https://artifacts.getty.edu/repository/jpgt-pypi/simple
-    username: ${{secrets.NEXUS_USERNAME}}
-    password: ${{secrets.NEXUS_PASSWORD}}
-    replaces-base: true
-  python-nexus-virtual:
-    type: python-index
-    url: https://artifacts.getty.edu/repository/jpgt-pypi-virtual/simple/
-    username: ${{secrets.NEXUS_USERNAME}}
-    password: ${{secrets.NEXUS_PASSWORD}}
-    # replaces-base: true
-  python:
-    type: python-index
-    url: https://pypi.python.org/simple
-    # replaces-base: true
