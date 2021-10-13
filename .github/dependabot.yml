@@ -1,0 +1,30 @@
+## instructions on YAML file: https://docs.github.com/en/code-security/supply-chain-security/configuration-options-for-dependency-updates
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "."
+    schedule:
+      interval: monthly
+      day: monday
+      time: "07:00"
+      timezone: "America/Los_Angeles"
+    allow:
+      - dependency-name: "@thegetty/*"
+      - dependency-name: "@thegetty-private/*"
+    reviewers:
+      - "@thegetty/rad"
+    registries:
+      - npm-npmjs
+      - npm-nexus
+    open-pull-requests-limit: 5
+registries:
+  npm-npmjs:
+    type: npm-registry
+    url: https://registry.npmjs.org
+    username: ${{secrets.NPM_USERNAME}}
+    password: ${{secrets.NPM_PASSWORD}}
+  npm-nexus:
+    type: npm-registry
+    url: https://artifacts.getty.edu/repository/npm-internal/
+    username: ${{secrets.NEXUS_USERNAME}}
+    password: ${{secrets.NEXUS_PASSWORD}}
