@@ -79,6 +79,7 @@ const scssRuleDev = {
       loader: "sass-loader",
       options: {
         sourceMap: true,
+        // additionalData: `@import "src/styles.scss";`,
       },
     },
   ],
@@ -94,6 +95,8 @@ const scssRuleProd = {
       loader: "sass-loader",
       options: {
         sourceMap: false,
+        // additionalData: `@import "src/styles.scss";`,
+
         sassOptions: {
           outputStyle: "compressed",
         },

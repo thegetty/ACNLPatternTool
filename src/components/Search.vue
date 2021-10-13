@@ -1,23 +1,6 @@
 <template>
   <div class="spacing_top">
-    <div class="m-search-input" ref="searchInput">
-      <input
-        name="search"
-        ref="input"
-        type="search"
-        v-model="value"
-        @keyup.enter="search"
-        placeholder="Search for artwork"
-      />
-      <button
-        ref="search"
-        name="search"
-        @click="search"
-        class="a-btn a-btn--text"
-      >
-        <Icon :name="'search'" />
-      </button>
-    </div>
+    <SearchInput @SearchInput::Submit="search" label="Search for Artwork" />
     <span v-if="query" ref="summary" class="summary"
       ><span v-if="matches.length > 0"
         >Showing {{ startIndex + 1 }} - {{ lastIndex }} of
@@ -81,7 +64,7 @@
 <script>
 import axios from "axios";
 import { extractData } from "../libs/ExtractData.js";
-import { Icon } from "@thegetty/getty-ui";
+import { SearchInput, Icon } from "@thegetty/getty-ui";
 import ImageThumb from "./ImageThumb.vue";
 import "unorm";
 if (typeof window !== "undefined") {
@@ -91,7 +74,7 @@ if (typeof window !== "undefined") {
 
 export default {
   name: "Search",
-  components: { Icon, ImageThumb },
+  components: { Icon, ImageThumb, SearchInput },
   data() {
     return {
       value: "",
@@ -169,11 +152,12 @@ export default {
         behavior: "smooth",
       });
     },
-    search() {
+    search(e) {
       if (this.isDataLoaded == false) {
         console.log("file not loaded yet");
         return;
       }
+      this.value = e.value;
       this.query = this.value;
       this.selected = undefined;
       this.matches = [];
@@ -206,6 +190,12 @@ export default {
   },
 };
 </script>
+<style type="text/css">
+h1#search-inputHeading {
+  font-size: 0.4em !important;
+  font-weight: 200;
+}
+</style>
 <style type="text/css" scoped>
 ol {
   display: flex;

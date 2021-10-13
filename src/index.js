@@ -1,6 +1,7 @@
 import Vue from "vue";
 import * as Sentry from "@sentry/browser";
 import * as Integrations from "@sentry/integrations";
+import { GettyUICore } from "@thegetty/getty-ui";
 
 if (
   (location != undefined &&
@@ -9,9 +10,8 @@ if (
   location == undefined
 ) {
   Sentry.init({
-    dsn:
-      "https://0ceef9680626415687568c7bd41ccbf8@o294689.ingest.sentry.io/5199201",
-    integrations: [new Integrations.Vue({ Vue, attachProps: true })]
+    dsn: "https://0ceef9680626415687568c7bd41ccbf8@o294689.ingest.sentry.io/5199201",
+    integrations: [new Integrations.Vue({ Vue, attachProps: true })],
   });
 }
 import App from "/App.vue";
@@ -28,8 +28,10 @@ import VBodyScrollLock from "v-body-scroll-lock";
 
 Vue.use(VueAnalytics, {
   id: "UA-8087223-37",
-  router
+  router,
 });
+
+Vue.use(GettyUICore);
 
 // vue global config
 Vue.config.productionTip = false;
@@ -46,7 +48,7 @@ new Vue({
   store,
   router,
   i18n,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
 
 // add this query string to url to see: '?log=info'
