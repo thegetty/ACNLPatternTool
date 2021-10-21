@@ -15,7 +15,6 @@ updates:
       - "@thegetty/rad"
     registries:
       - npm-npmjs
-      - npm-nexus
     open-pull-requests-limit: 5
 registries:
   npm-npmjs:
@@ -23,8 +22,3 @@ registries:
     url: https://registry.npmjs.org
     username: ${{secrets.NPM_USERNAME}}
     password: ${{secrets.NPM_PASSWORD}}
-  npm-nexus:
-    type: npm-registry
-    url: https://artifacts.getty.edu/repository/npm-internal/
-    username: ${{secrets.NEXUS_USERNAME}}
-    password: ${{secrets.NEXUS_PASSWORD}}
