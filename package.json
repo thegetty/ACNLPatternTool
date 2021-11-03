@@ -27,7 +27,7 @@
   "dependencies": {
     "@sentry/browser": "^5.15.4",
     "@sentry/integrations": "^5.15.4",
-    "@thegetty/getty-ui": "2.35.0",
+    "@thegetty/getty-ui": "2.38.1",
     "@vxna/optimize-three-webpack-plugin": "^3.0.1",
     "axios": "^0.21.1",
     "file-saver": "^2.0.2",
