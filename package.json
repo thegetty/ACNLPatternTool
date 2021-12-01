@@ -33,7 +33,7 @@
     "file-saver": "^2.0.2",
     "fs-extra": "^8.1.0",
     "jsbi": "^3.1.2",
-    "jszip": "^3.2.2",
+    "jszip": "^3.7.0",
     "lodash": "^4.17.21",
     "lz-string": "^1.4.4",
     "netlify-cli": "^2.46.0",
