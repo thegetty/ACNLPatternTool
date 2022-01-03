@@ -21,10 +21,8 @@ registries:
   npm-npmjs:
     type: npm-registry
     url: https://registry.npmjs.org
-    username: ${{secrets.NPM_USERNAME}}
-    password: ${{secrets.NPM_PASSWORD}}
+    token: ${{secrets.NPM_TOKEN}}
   npm-nexus:
     type: npm-registry
     url: https://artifacts.getty.edu/repository/npm-internal/
-    username: ${{secrets.NEXUS_USERNAME}}
-    password: ${{secrets.NEXUS_PASSWORD}}
+    token: ${{secrets.NEXUS_NPM_TOKEN}}
