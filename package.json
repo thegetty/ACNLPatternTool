@@ -41,7 +41,7 @@
     "sass": "^1.42.1",
     "signale": "^1.4.0",
     "smoothscroll-polyfill": "^0.4.4",
-    "three": "^0.127.0",
+    "three": "^0.137.0",
     "ulog": "^1.1.0",
     "unorm": "^1.6.0",
     "v-body-scroll-lock": "^1.1.3",
