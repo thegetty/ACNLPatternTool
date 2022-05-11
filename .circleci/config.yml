@@ -23,8 +23,14 @@ jobs:
     steps:
       - *attach_workspace
       - catch_errors
-      - getty-devops/sync-with-s3:
-          local-path: "build/ac-art-generator"
+      - getty-devops-release/retag:
+          local-image: "project_webserver"
+          published-image: "ac-art-generator"
+          tag: *imageTag
+      - getty-devops-release/push-to-ecr:
+          image: "ac-art-generator"
+          tag: *imageTag
+
 
 workflows:
   version: 2
@@ -39,6 +45,31 @@ workflows:
               only: main
           requires:
             - build
+      - getty-devops-release/deployTo:
+          name: "Deploy to Staging"
+          context: GETTY
+          tag: *imageTag
+          service: ac-art-generator
+          requires:
+            - build
+            - deploy
+          filters:
+            branches:
+              only:
+                - main
+            tags:
+              ignore: /.*/
+      - getty-devops-release/deployTo:
+          name: "Deploy to Production"
+          context: GETTY
+          tag: *imageTag
+          service: ac-art-generator
+          environment: production
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*$/
 
 commands:
   setup:

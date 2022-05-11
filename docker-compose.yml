@@ -21,3 +21,9 @@ services:
     entrypoint: npm run dev
     ports:
       - "3000:3000"
+  webserver:
+    build:
+      dockerfile: Dockerfile.nginx
+      context: .
+    ports:
+      - "8080:80"

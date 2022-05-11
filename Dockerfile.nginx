@@ -1,0 +1,8 @@
+FROM nginx:1.21.6 as webserver
+
+# Install ca-certificates so that SSL/TLS in the client envconsul configuration can function 
+# See the thegetty/envconsul git project README for more information in the WARNINGS section
+RUN apt-get update && apt-get -y install ca-certificates && rm -rf /var/lib/apt/lists/*
+
+
+COPY build/ac-art-generator /usr/share/nginx/html
