@@ -54,8 +54,8 @@ commands:
           name: Build frontend
           command: /usr/local/bin/docker-compose build frontend
       - run:
-          name: Build frontend
-          command: /usr/local/bin/docker-compose up
+          name: Build start docker
+          command: /usr/local/bin/docker-compose up  -d
   build_output:
     steps:
       - run:
