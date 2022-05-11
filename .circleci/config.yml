@@ -25,11 +25,11 @@ jobs:
     steps:
       - *attach_workspace
       - catch_errors
-      - getty-devops-release/retag:
+      - getty-devops/retag:
           local-image: "project_webserver"
           published-image: "ac-art-generator"
           tag: *imageTag
-      - getty-devops-release/push-to-ecr:
+      - getty-devops/push-to-ecr:
           image: "ac-art-generator"
           tag: *imageTag
 
@@ -46,7 +46,7 @@ workflows:
               only: main
           requires:
             - build
-      - getty-devops-release/deployTo:
+      - getty-devops/deployTo:
           name: "Deploy to Staging"
           context: GETTY
           tag: *imageTag
@@ -60,7 +60,7 @@ workflows:
                 - main
             tags:
               ignore: /.*/
-      - getty-devops-release/deployTo:
+      - getty-devops/deployTo:
           name: "Deploy to Production"
           context: GETTY
           tag: *imageTag
