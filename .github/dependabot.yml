@@ -2,7 +2,7 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: "."
+    directory: "/src/frontend/"
     schedule:
       interval: monthly
       day: monday
@@ -17,7 +17,25 @@ updates:
       - npm-npmjs
       - npm-nexus
     open-pull-requests-limit: 5
+  - package-ecosystem: "docker"
+    # Look for a `Dockerfile` in the `root` directory
+    directory: "/"
+    reviewers:
+      - "@thegetty/rad"
+    schedule:
+      interval: monthly
+      day: monday
+      time: "07:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 2
+    registries:
+      - ecr-docker
 registries:
+  ecr-docker:
+    type: docker-registry
+    url: https://936189880821.dkr.ecr.us-west-2.amazonaws.com
+    username: ${{secrets.ECR_AWS_ACCESS_KEY_ID}}
+    password: ${{secrets.ECR_AWS_SECRET_ACCESS_KEY}}
   npm-npmjs:
     type: npm-registry
     url: https://registry.npmjs.org

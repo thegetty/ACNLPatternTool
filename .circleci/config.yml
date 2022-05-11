@@ -1,0 +1,84 @@
+version: 2.1
+
+anchors:
+  workspace_root: &workspace_root ~/repo
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+orbs:
+  getty-devops: thegetty/devops-orb@2
+  docker: circleci/docker@1.0.1
+
+jobs:
+  build:
+    context: GETTY
+    executor: build_env
+    steps:
+      - setup
+      - build
+      - catch_errors
+  deploy:
+    context: GETTY
+    executor: build_env
+    steps:
+      - *attach_workspace
+      - build_output
+      - catch_errors
+      - getty-devops/sync-with-s3:
+          local-path: "build/ac-art-generator"
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            branches:
+              only: main
+          requires:
+            - build
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - docker/install-docker-compose:
+          version: "1.26.2"
+  build:
+    steps:
+      - run:
+          name: Build frontend
+          command: /usr/local/bin/docker-compose build frontend
+      - run:
+          name: Build frontend
+          command: /usr/local/bin/docker-compose up
+  build_output:
+    steps:
+      - run:
+          name: Build frontend
+          command: /usr/local/bin/docker-compose exec frontend npm run build production
+      - run:
+          name: Build frontend
+          command: /usr/local/bin/docker-compose down
+  catch_errors:
+    steps:
+      - run:
+          name: "Failure: output container logs to console"
+          command: |
+            docker-compose -f docker-compose.yml  -f docker-compose.test.yml logs
+          when: on_fail
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: raw-test-output
+      - store_test_results:
+          path: /tmp/test-results
+executors:
+  build_env:
+    machine:
+      - image: ubuntu-2004:202201-02
+    working_directory: ~/repo
+    environment: CI:true
