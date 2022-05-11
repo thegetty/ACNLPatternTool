@@ -53,8 +53,14 @@ commands:
           name: Build frontend
           command: /usr/local/bin/docker-compose build frontend
       - run:
+          name: setup submodules
+          command: git submodule update --init --recursive
+      - run:
           name: start docker
           command: /usr/local/bin/docker-compose up -d
+      - run:
+          name: install submodule
+          command: /usr/local/bin/docker-compose exec frontend npm run install:submodule
       - run:
           name: Build production
           command: /usr/local/bin/docker-compose exec frontend npm run build production
