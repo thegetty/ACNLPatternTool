@@ -7,6 +7,8 @@ anchors:
     attach_workspace:
       at: *workspace_root
 
+  imageTag: &imageTag ${CIRCLE_SHA1:0:7}
+
 orbs:
   getty-devops: thegetty/devops-orb@2
   docker: circleci/docker@1.0.1
@@ -30,7 +32,6 @@ jobs:
       - getty-devops-release/push-to-ecr:
           image: "ac-art-generator"
           tag: *imageTag
-
 
 workflows:
   version: 2
