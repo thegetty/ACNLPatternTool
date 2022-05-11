@@ -1,0 +1,92 @@
+version: 2.1
+
+anchors:
+  workspace_root: &workspace_root /home/circleci/project
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+orbs:
+  getty-devops: thegetty/devops-orb@2
+  docker: circleci/docker@1.0.1
+
+jobs:
+  build:
+    executor: build_env
+    steps:
+      - setup
+      - build
+      - catch_errors
+  deploy:
+    executor: build_env
+    steps:
+      - *attach_workspace
+      - catch_errors
+      - getty-devops/sync-with-s3:
+          local-path: "build/ac-art-generator"
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          context: GETTY
+      - deploy:
+          context: GETTY
+          filters:
+            branches:
+              only: main
+          requires:
+            - build
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - docker/install-docker-compose:
+          version: "1.26.2"
+  build:
+    steps:
+      - run:
+          name: Build frontend
+          command: /usr/local/bin/docker-compose build frontend
+      - run:
+          name: setup submodules
+          command: git submodule update --init --recursive
+      - run:
+          name: start docker
+          command: /usr/local/bin/docker-compose up -d
+      - run:
+          name: install submodule
+          command: /usr/local/bin/docker-compose exec frontend npm run install:submodule
+      - run:
+          name: Build production
+          command: /usr/local/bin/docker-compose exec frontend npm run build production
+      - run:
+          name: stop docker
+          command: /usr/local/bin/docker-compose down
+      - persist_to_workspace:
+          root: *workspace_root # absolute path or relative to working_directory
+          paths: . # paths relative to the workspace root
+  catch_errors:
+    steps:
+      - run:
+          name: "Failure: output container logs to console"
+          command: |
+            docker-compose -f docker-compose.yml logs
+          when: on_fail
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: raw-test-output
+      - store_test_results:
+          path: /tmp/test-results
+executors:
+  build_env:
+    machine:
+      image: ubuntu-2004:202201-02
+    environment:
+      TEST_RESULTS: /tmp/test-results
+      GIT_VERSION: << pipeline.git.revision >>
+      VUE_APP_COMMIT_HASH: << pipeline.git.revision >>

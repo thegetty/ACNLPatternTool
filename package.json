@@ -10,6 +10,7 @@
     "clean:submodule": "cd zxing-js-library && npm run clean",
     "build": "cd zxing-js-library && npm run build:es5 && cd .. && node scripts/build.js",
     "build:app": "node scripts/build.js",
+    "install:submodule": "cd zxing-js-library && yarn",
     "build:submodule": "cd zxing-js-library && npm run build:es5",
     "test": "jest",
     "test:watch": "jest --watch"
