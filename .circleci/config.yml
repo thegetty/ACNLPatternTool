@@ -34,9 +34,9 @@ workflows:
           context: GETTY
       - deploy:
           context: GETTY
-          # filters:
-          #   branches:
-          #     only: main
+          filters:
+            branches:
+              only: main
           requires:
             - build
 
