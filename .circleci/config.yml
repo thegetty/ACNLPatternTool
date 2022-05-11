@@ -89,7 +89,7 @@ commands:
           command: git submodule update --init --recursive
       - run:
           name: start docker
-          command: /usr/local/bin/docker-compose up frontend -d
+          command: /usr/local/bin/docker-compose up -d frontend
       - run:
           name: install submodule
           command: /usr/local/bin/docker-compose exec frontend npm run install:submodule
