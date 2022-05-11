@@ -13,14 +13,12 @@ orbs:
 
 jobs:
   build:
-    context: GETTY
     executor: build_env
     steps:
       - setup
       - build
       - catch_errors
   deploy:
-    context: GETTY
     executor: build_env
     steps:
       - *attach_workspace
@@ -34,7 +32,9 @@ workflows:
   build-deploy:
     jobs:
       - build
+          context: GETTY
       - deploy:
+          context: GETTY
           filters:
             branches:
               only: main
