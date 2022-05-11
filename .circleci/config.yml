@@ -54,7 +54,7 @@ commands:
           command: /usr/local/bin/docker-compose build frontend
       - run:
           name: start docker
-          command: /usr/local/bin/docker-compose up  -d
+          command: /usr/local/bin/docker-compose up -d
       - run:
           name: Build production
           command: /usr/local/bin/docker-compose exec frontend npm run build production
@@ -69,7 +69,7 @@ commands:
       - run:
           name: "Failure: output container logs to console"
           command: |
-            docker-compose -f docker-compose.yml  -f docker-compose.test.yml logs
+            docker-compose -f docker-compose.yml logs
           when: on_fail
       - store_artifacts:
           path: /tmp/test-results
