@@ -22,7 +22,6 @@ jobs:
     executor: build_env
     steps:
       - *attach_workspace
-      - build_output
       - catch_errors
       - getty-devops/sync-with-s3:
           local-path: "build/ac-art-generator"
@@ -35,9 +34,9 @@ workflows:
           context: GETTY
       - deploy:
           context: GETTY
-          filters:
-            branches:
-              only: main
+          # filters:
+          #   branches:
+          #     only: main
           requires:
             - build
 
@@ -54,16 +53,17 @@ commands:
           name: Build frontend
           command: /usr/local/bin/docker-compose build frontend
       - run:
-          name: Build start docker
+          name: start docker
           command: /usr/local/bin/docker-compose up  -d
-  build_output:
-    steps:
       - run:
-          name: Build frontend
+          name: Build production
           command: /usr/local/bin/docker-compose exec frontend npm run build production
       - run:
-          name: Build frontend
+          name: stop docker
           command: /usr/local/bin/docker-compose down
+      - persist_to_workspace:
+          root: *workspace_root # absolute path or relative to working_directory
+          paths: . # paths relative to the workspace root
   catch_errors:
     steps:
       - run:
