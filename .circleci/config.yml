@@ -1,7 +1,7 @@
 version: 2.1
 
 anchors:
-  workspace_root: &workspace_root ~/repo
+  workspace_root: &workspace_root /home/circleci/project
 
   attach_workspace: &attach_workspace
     attach_workspace:
