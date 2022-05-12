@@ -58,11 +58,14 @@ workflows:
           tag: *imageTag
           service: getty-ac-art-generator-experiment
           environment: production
+          requires:
+            - build
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - main
             tags:
-              only: /^v.*$/
+              ignore: /.*/
 
 commands:
   setup:
