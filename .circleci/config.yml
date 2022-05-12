@@ -18,42 +18,34 @@ jobs:
     executor: build_env
     steps:
       - setup
+      - getty-devops/setup-aws
       - build
+      - when:
+          condition:
+            or:
+              - equal: [main, << pipeline.git.branch >>]
+          steps:
+            - getty-devops/retag:
+                local-image: "project_webserver"
+                published-image: "getty-ac-art-generator-experiment"
+                tag: *imageTag
+            - getty-devops/push-to-ecr:
+                image: "getty-ac-art-generator-experiment"
+                tag: *imageTag
       - catch_errors
-  deploy:
-    executor: build_env
-    steps:
-      - *attach_workspace
-      - catch_errors
-      - getty-devops/retag:
-          local-image: "project_webserver"
-          published-image: "getty-ac-art-generator-experiment"
-          tag: *imageTag
-      - getty-devops/push-to-ecr:
-          image: "getty-ac-art-generator-experiment"
-          tag: *imageTag
-
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build:
           context: GETTY
-      - deploy:
-          context: GETTY
-          filters:
-            branches:
-              only: main
-          requires:
-            - build
       - getty-devops/deployTo:
           name: "Deploy to Staging"
           context: GETTY
           tag: *imageTag
-          service: ac-art-generator
+          service: getty-ac-art-generator-experiment
           requires:
             - build
-            - deploy
           filters:
             branches:
               only:
@@ -64,7 +56,7 @@ workflows:
           name: "Deploy to Production"
           context: GETTY
           tag: *imageTag
-          service: ac-art-generator
+          service: getty-ac-art-generator-experiment
           environment: production
           filters:
             branches:
@@ -99,6 +91,9 @@ commands:
       - run:
           name: stop docker
           command: /usr/local/bin/docker-compose down
+      - run:
+          name: build nginx
+          command: /usr/local/bin/docker-compose build webserver
       - persist_to_workspace:
           root: *workspace_root # absolute path or relative to working_directory
           paths: . # paths relative to the workspace root
