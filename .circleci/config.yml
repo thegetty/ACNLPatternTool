@@ -43,27 +43,11 @@ workflows:
     jobs:
       - build:
           context: GETTY
-      - deploy:
-          context: GETTY
-          filters:
-            branches:
-              only: main
-          requires:
-            - build
-commands:
-  setup:
-    steps:
-      - checkout
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - docker/install-docker-compose:
-          version: "1.26.2"
-  deploy:
-    steps:
-      - getty-devops/deployTo:
+      - getty-devops-release/deployTo:
           name: "Deploy to Staging"
           context: GETTY
           tag: *imageTag
-          service: getty-ac-art-generator-experiment
+          service: collection-online-20-nginx,collection-online-20-flask-search,collection-online-20-indexer,collection-online-20-sitewide-indexer
           requires:
             - build
           filters:
@@ -72,17 +56,25 @@ commands:
                 - main
             tags:
               ignore: /.*/
-      - getty-devops/deployTo:
+      - getty-devops-release/deployTo:
           name: "Deploy to Production"
           context: GETTY
           tag: *imageTag
-          service: getty-ac-art-generator-experiment
+          service: collection-online-20-nginx,collection-online-20-flask-search,collection-online-20-indexer,collection-online-20-sitewide-indexer
           environment: production
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v.*$/
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - docker/install-docker-compose:
+          version: "1.26.2"
   build:
     steps:
       - run:
