@@ -36,6 +36,29 @@ jobs:
   deploy:
     executor: build_env
     steps:
+      - deploy
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          context: GETTY
+      - deploy:
+          context: GETTY
+          filters:
+            branches:
+              only: main
+          requires:
+            - build
+commands:
+  setup:
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - docker/install-docker-compose:
+          version: "1.26.2"
+  deploy:
+    steps:
       - getty-devops/deployTo:
           name: "Deploy to Staging"
           context: GETTY
@@ -60,26 +83,6 @@ jobs:
               ignore: /.*/
             tags:
               only: /^v.*$/
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build:
-          context: GETTY
-      - deploy:
-          context: GETTY
-          filters:
-            branches:
-              only: main
-          requires:
-            - build
-commands:
-  setup:
-    steps:
-      - checkout
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - docker/install-docker-compose:
-          version: "1.26.2"
   build:
     steps:
       - run:
