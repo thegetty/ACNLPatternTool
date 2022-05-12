@@ -7,6 +7,8 @@ anchors:
     attach_workspace:
       at: *workspace_root
 
+  imageTag: &imageTag ${CIRCLE_SHA1:0:7}
+
 orbs:
   getty-devops: thegetty/devops-orb@2
   docker: circleci/docker@1.0.1
@@ -23,8 +25,13 @@ jobs:
     steps:
       - *attach_workspace
       - catch_errors
-      - getty-devops/sync-with-s3:
-          local-path: "build/ac-art-generator"
+      - getty-devops/retag:
+          local-image: "project_webserver"
+          published-image: "getty-ac-art-generator-experiment"
+          tag: *imageTag
+      - getty-devops/push-to-ecr:
+          image: "getty-ac-art-generator-experiment"
+          tag: *imageTag
 
 workflows:
   version: 2
@@ -39,6 +46,31 @@ workflows:
               only: main
           requires:
             - build
+      - getty-devops/deployTo:
+          name: "Deploy to Staging"
+          context: GETTY
+          tag: *imageTag
+          service: ac-art-generator
+          requires:
+            - build
+            - deploy
+          filters:
+            branches:
+              only:
+                - main
+            tags:
+              ignore: /.*/
+      - getty-devops/deployTo:
+          name: "Deploy to Production"
+          context: GETTY
+          tag: *imageTag
+          service: ac-art-generator
+          environment: production
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*$/
 
 commands:
   setup:
@@ -57,7 +89,7 @@ commands:
           command: git submodule update --init --recursive
       - run:
           name: start docker
-          command: /usr/local/bin/docker-compose up -d
+          command: /usr/local/bin/docker-compose up -d frontend
       - run:
           name: install submodule
           command: /usr/local/bin/docker-compose exec frontend npm run install:submodule
