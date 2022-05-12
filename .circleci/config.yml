@@ -19,19 +19,24 @@ jobs:
     steps:
       - setup
       - build
+      - when:
+          condition:
+            or:
+              - equal: [circleci, << pipeline.git.branch >>]
+          steps:
+            - getty-devops/retag:
+                local-image: "project_webserver"
+                published-image: "getty-ac-art-generator-experiment"
+                tag: *imageTag
+            - getty-devops/push-to-ecr:
+                image: "getty-ac-art-generator-experiment"
+                tag: *imageTag
       - catch_errors
   deploy:
     executor: build_env
     steps:
       - *attach_workspace
       - catch_errors
-      - getty-devops/retag:
-          local-image: "project_webserver"
-          published-image: "ac-art-generator"
-          tag: *imageTag
-      - getty-devops/push-to-ecr:
-          image: "ac-art-generator"
-          tag: *imageTag
 
 workflows:
   version: 2
