@@ -27,10 +27,10 @@ jobs:
       - catch_errors
       - getty-devops/retag:
           local-image: "project_webserver"
-          published-image: "ac-art-generator"
+          published-image: "getty-ac-art-generator-experiment"
           tag: *imageTag
       - getty-devops/push-to-ecr:
-          image: "ac-art-generator"
+          image: "getty-ac-art-generator-experiment"
           tag: *imageTag
 
 workflows:
