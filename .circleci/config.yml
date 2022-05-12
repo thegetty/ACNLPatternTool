@@ -102,12 +102,6 @@ commands:
       - run:
           name: build nginx
           command: /usr/local/bin/docker-compose build webserver
-      - run:
-          name: start docker
-          command: /usr/local/bin/docker-compose up
-      - run:
-          name: start docker
-          command: /usr/local/bin/docker-compose down
       - persist_to_workspace:
           root: *workspace_root # absolute path or relative to working_directory
           paths: . # paths relative to the workspace root
