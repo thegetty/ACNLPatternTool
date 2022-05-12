@@ -33,19 +33,9 @@ jobs:
                 image: "getty-ac-art-generator-experiment"
                 tag: *imageTag
       - catch_errors
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build:
-          context: GETTY
-      - deploy:
-          context: GETTY
-          filters:
-            branches:
-              only: main
-          requires:
-            - build
+  deploy:
+    executor: build_env
+    steps:
       - getty-devops/deployTo:
           name: "Deploy to Staging"
           context: GETTY
@@ -70,7 +60,19 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v.*$/
-
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          context: GETTY
+      - deploy:
+          context: GETTY
+          filters:
+            branches:
+              only: main
+          requires:
+            - build
 commands:
   setup:
     steps:
