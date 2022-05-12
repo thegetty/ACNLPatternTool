@@ -39,7 +39,7 @@ workflows:
     jobs:
       - build:
           context: GETTY
-      - getty-devops-release/deployTo:
+      - getty-devops/deployTo:
           name: "Deploy to Staging"
           context: GETTY
           tag: *imageTag
@@ -52,7 +52,7 @@ workflows:
                 - main
             tags:
               ignore: /.*/
-      - getty-devops-release/deployTo:
+      - getty-devops/deployTo:
           name: "Deploy to Production"
           context: GETTY
           tag: *imageTag
