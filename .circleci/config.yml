@@ -18,6 +18,7 @@ jobs:
     executor: build_env
     steps:
       - setup
+      - getty-devops/setup-aws
       - build
       - when:
           condition:
