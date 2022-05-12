@@ -43,7 +43,7 @@ workflows:
           name: "Deploy to Staging"
           context: GETTY
           tag: *imageTag
-          service: collection-online-20-nginx,collection-online-20-flask-search,collection-online-20-indexer,collection-online-20-sitewide-indexer
+          service: getty-ac-art-generator-experiment
           requires:
             - build
           filters:
@@ -56,7 +56,7 @@ workflows:
           name: "Deploy to Production"
           context: GETTY
           tag: *imageTag
-          service: collection-online-20-nginx,collection-online-20-flask-search,collection-online-20-indexer,collection-online-20-sitewide-indexer
+          service: getty-ac-art-generator-experiment
           environment: production
           filters:
             branches:
