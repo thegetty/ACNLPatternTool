@@ -24,7 +24,8 @@ const babelDevConfig = {
     ],
     ["@babel/plugin-proposal-object-rest-spread"],
     [("@babel/plugin-transform-runtime", {})],
-    ["@babel/plugin-transform-modules-commonjs", {}],
+    [("@babel/plugin-proposal-export-namespace-from", {})],
+    [("@babel/plugin-transform-modules-commonjs", {})],
   ],
 };
 
