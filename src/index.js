@@ -26,14 +26,14 @@ import VueGtm from "@gtm-support/vue2-gtm";
 
 import VBodyScrollLock from "v-body-scroll-lock";
 
-// let gtmConfig = {
-//   id: "GTM-NRDC63K",
-//   vueRouter: router,
-//   loadScript: true,
-//   debug: false,
-// };
+let gtmConfig = {
+  id: "GTM-NRDC63K",
+  vueRouter: router,
+  loadScript: true,
+  debug: false,
+};
 
-// Vue.use(VueGtm, gtmConfig);
+Vue.use(VueGtm, gtmConfig);
 
 Vue.use(GettyUICore);
 
