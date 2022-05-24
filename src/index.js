@@ -22,9 +22,9 @@ import logger from "/utils/logger";
 import router from "/routers"; // use router
 import store from "/store"; // use vuex
 import "/style.scss"; // top-level styles
-import VueGtm from "@gtm-support/vue2-gtm";
 
 import VBodyScrollLock from "v-body-scroll-lock";
+import VueGtm from "@gtm-support/vue2-gtm";
 
 let gtmConfig = {
   id: "GTM-NRDC63K",
