@@ -22,14 +22,18 @@ import logger from "/utils/logger";
 import router from "/routers"; // use router
 import store from "/store"; // use vuex
 import "/style.scss"; // top-level styles
-import VueAnalytics from "vue-analytics";
 
 import VBodyScrollLock from "v-body-scroll-lock";
+import VueGtm from "@gtm-support/vue2-gtm";
 
-Vue.use(VueAnalytics, {
-  id: "UA-8087223-37",
-  router,
-});
+let gtmConfig = {
+  id: "GTM-NRDC63K",
+  vueRouter: router,
+  loadScript: true,
+  debug: false,
+};
+
+Vue.use(VueGtm, gtmConfig);
 
 Vue.use(GettyUICore);
 
