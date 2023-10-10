@@ -1,4 +1,5 @@
 FROM node:12.5.0
+RUN echo "deb http://archive.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list
 RUN apt-get update && apt-get install -y ca-certificates curl  && rm -rf /var/lib/apt/lists/* 
 
 # replace this with your application's default port
