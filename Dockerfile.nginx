@@ -1,4 +1,4 @@
-FROM nginx:1.21.6 as webserver
+FROM nginx:1.31.8 as webserver
 
 # Install ca-certificates so that SSL/TLS in the client envconsul configuration can function 
 # See the thegetty/envconsul git project README for more information in the WARNINGS section
